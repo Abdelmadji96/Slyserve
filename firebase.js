@@ -39,9 +39,9 @@ if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig, 'SERVICES.SLY');
 }
 
-if (__DEV__) {
-  firebase.firestore().useEmulator('localhost', 8081);
-}
+// if (__DEV__) {
+//   firebase.firestore().useEmulator('localhost', 8081);
+// }
 
 const FIRESTORE = firebase.firestore();
 const STORAGE = js_firebase.default.storage();

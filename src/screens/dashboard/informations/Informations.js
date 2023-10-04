@@ -1,22 +1,22 @@
-import React, {useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import DrawerHiddenView from '../../../components/drawerHiddenView/DrawerHiddenView';
-import {COLORS} from '../../../constants/colors';
-import {HEIGHT, WIDTH} from '../../../constants/dimensions';
-import {useTheme} from '../../../context/theme';
+import { COLORS } from '../../../constants/colors';
+import { HEIGHT, WIDTH } from '../../../constants/dimensions';
+import { useTheme } from '../../../context/theme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
-import {LANAGUAGES_LIST} from '../../../constants/languages';
-import {fetchWilayas} from '../../../api/wilayas';
-import {fetchCommunes} from '../../../api/communes';
+import { LANAGUAGES_LIST } from '../../../constants/languages';
+import { fetchWilayas } from '../../../api/wilayas';
+import { fetchCommunes } from '../../../api/communes';
 
-const Informations = ({navigation, application, user, token}) => {
-  const {drawer} = useTheme();
+const Informations = ({ navigation, application, user, token }) => {
+  const { drawer } = useTheme();
   const [wilayas, setWilayas] = useState(null);
   const [communes, setCommunes] = useState(null);
-
+  console.log('useruser', user);
   const getWilayas = async () => {
     const response = await fetchWilayas();
     if (response) {
@@ -24,8 +24,8 @@ const Informations = ({navigation, application, user, token}) => {
     }
   };
 
-  const getCommunes = async wilaya_id => {
-    const response = await fetchCommunes(wilaya_id);
+  const getCommunes = async wilaya => {
+    const response = await fetchCommunes(wilaya);
     if (response) {
       setCommunes(response);
     }
@@ -53,8 +53,8 @@ const Informations = ({navigation, application, user, token}) => {
 
   useEffect(() => {
     getWilayas();
-    getCommunes(user.wilaya_id);
-  }, []);
+    getCommunes(user.wilaya);
+  }, [user.wilaya]);
 
   return (
     <>
@@ -63,7 +63,7 @@ const Informations = ({navigation, application, user, token}) => {
         style={[
           styles.container,
           {
-            transform: [{scale: drawer.scale}],
+            transform: [{ scale: drawer.scale }],
             borderBottomLeftRadius: drawer.radius,
             borderTopLeftRadius: drawer.radius,
           },
@@ -87,7 +87,7 @@ const Informations = ({navigation, application, user, token}) => {
         </View>
         <ScrollView
           style={styles.bottomView}
-          contentContainerStyle={{padding: 10}}>
+          contentContainerStyle={{ padding: 10 }}>
           <Text />
           <View
             style={[
@@ -132,7 +132,7 @@ const Informations = ({navigation, application, user, token}) => {
             <Text style={styles.headerTitle}>
               {application.language.data.ADDRESS}
             </Text>
-            <Text>{user?.nom_de_rue}</Text>
+            <Text>{user?.nomRue}</Text>
           </>
           <Text />
           <View
@@ -146,7 +146,7 @@ const Informations = ({navigation, application, user, token}) => {
               {application.language.data.WILAYA}
             </Text>
             <Text>
-              {user?.wilaya_id + ' - ' + displayWilaya(user?.wilaya_id)}
+              {user?.wilaya + ' - ' + displayWilaya(user?.wilaya)}
             </Text>
           </View>
           <Text />
@@ -161,7 +161,7 @@ const Informations = ({navigation, application, user, token}) => {
               {application.language.data.COMMUNE}
             </Text>
             <Text>
-              {user?.wilaya_id + ' - ' + displayCommune(user?.commune_id)}
+              {user?.wilaya + ' - ' + displayCommune(user?.commune)}
             </Text>
           </View>
         </ScrollView>
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     color: COLORS.PRIMARY12,
   },
-  bottomView: {flex: 1},
+  bottomView: { flex: 1 },
   row: {
     width: '100%',
     flexDirection: 'row',

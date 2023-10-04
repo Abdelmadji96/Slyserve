@@ -189,7 +189,7 @@ const Planning = ({navigation, application, user, role, token, makeCall}) => {
                         color={COLORS.PRIMARY12}
                         style={styles.appointmentDateIcon}
                       />
-                      <Text>{item.heure_rdv.substring(0, 5)}</Text>
+                      <Text>{item?.heure_rdv?.substring(0, 5)}</Text>
                     </View>
                   </View>
                   <View style={styles.patientContainer}>

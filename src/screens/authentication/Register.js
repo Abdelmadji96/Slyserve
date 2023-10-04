@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,29 +11,29 @@ import {
   Image,
 } from 'react-native';
 import Animated from 'react-native-reanimated';
-import {COLORS} from '../../constants/colors';
-import {HEIGHT, WIDTH} from '../../constants/dimensions';
-import {useTheme} from '../../context/theme';
+import { COLORS } from '../../constants/colors';
+import { HEIGHT, WIDTH } from '../../constants/dimensions';
+import { useTheme } from '../../context/theme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import AnimatedTextInput from '../../components/input/AnimatedTextInput';
-import {Picker} from '@react-native-picker/picker';
-import {LANAGUAGES_LIST} from '../../constants/languages';
+import { Picker } from '@react-native-picker/picker';
+import { LANAGUAGES_LIST } from '../../constants/languages';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import DatePicker from 'react-native-date-picker';
 import Feather from 'react-native-vector-icons/Feather';
-import {USER_ROLES} from '../../constants/user';
-import {fetchWilayas} from '../../api/wilayas';
-import {fetchCommunes} from '../../api/communes';
-import {isValidPhoneNumber} from 'libphonenumber-js';
+import { USER_ROLES } from '../../constants/user';
+import { fetchWilayas } from '../../api/wilayas';
+import { fetchCommunes } from '../../api/communes';
+import { isValidPhoneNumber } from 'libphonenumber-js';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import DrawerHiddenView from '../../components/drawerHiddenView/DrawerHiddenView';
-import {patientCheckUnique, patientRegister} from '../../api/patients';
-import {StackActions} from '@react-navigation/native';
-import {doctorCheckUnique, doctorRegister} from '../../api/doctors';
+import { patientCheckUnique, patientRegister } from '../../api/patients';
+import { StackActions } from '@react-navigation/native';
+import { doctorCheckUnique, doctorRegister } from '../../api/doctors';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {fetchSpecialites} from '../../api/specialties';
+import { fetchSpecialites } from '../../api/specialties';
 import {
   paramedicalCheckUnique,
   paramedicalRegister,
@@ -42,9 +42,9 @@ import {
   clinicHospitalCheckUnique,
   clinicHospitalRegister,
 } from '../../api/clinics';
-import {pharmacyCheckUnique, pharmacyRegister} from '../../api/pharmacies';
-import {ambulanceCheckUnique, ambulanceRegister} from '../../api/ambulances';
-import {bloodDonorCheckUnique, bloodDonorRegister} from '../../api/bloodDonors';
+import { pharmacyCheckUnique, pharmacyRegister } from '../../api/pharmacies';
+import { ambulanceCheckUnique, ambulanceRegister } from '../../api/ambulances';
+import { bloodDonorCheckUnique, bloodDonorRegister } from '../../api/bloodDonors';
 import {
   laboratoryCheckUnique,
   laboratoryRegister,
@@ -133,8 +133,8 @@ const displayDate = date => {
   return year + '-' + month + '-' + day;
 };
 
-const Register = ({navigation, route, application}) => {
-  const {drawer} = useTheme();
+const Register = ({ navigation, route, application }) => {
+  const { drawer } = useTheme();
   const [firstName, setFirstName] = useState('');
   const [firstNameValidate, setFirstNameValidate] = useState(0);
   const [firstNameErrorVisible, setFirstNameErrorVisible] = useState(false);
@@ -205,8 +205,8 @@ const Register = ({navigation, route, application}) => {
         text.length == 0
           ? setNameValidate(0)
           : alph.test(text)
-          ? setNameValidate(1)
-          : setNameValidate(2);
+            ? setNameValidate(1)
+            : setNameValidate(2);
         setName(text);
         break;
 
@@ -217,8 +217,8 @@ const Register = ({navigation, route, application}) => {
         text.length == 0
           ? setFirstNameValidate(0)
           : alph.test(text)
-          ? setFirstNameValidate(1)
-          : setFirstNameValidate(2);
+            ? setFirstNameValidate(1)
+            : setFirstNameValidate(2);
         setFirstName(text);
         break;
 
@@ -229,8 +229,8 @@ const Register = ({navigation, route, application}) => {
         text.length == 0
           ? setLastNameValidate(0)
           : alph.test(text)
-          ? setLastNameValidate(1)
-          : setLastNameValidate(2);
+            ? setLastNameValidate(1)
+            : setLastNameValidate(2);
         setLastName(text);
         break;
 
@@ -241,8 +241,8 @@ const Register = ({navigation, route, application}) => {
         text.length == 0
           ? setPhoneValidate(0)
           : isValidPhoneNumber('+213 ' + text, 'DZ')
-          ? setPhoneValidate(1)
-          : setPhoneValidate(2);
+            ? setPhoneValidate(1)
+            : setPhoneValidate(2);
         setPhone(text);
         break;
 
@@ -259,8 +259,8 @@ const Register = ({navigation, route, application}) => {
         text.length == 0
           ? setEmailValidate(0)
           : alph.test(text)
-          ? setEmailValidate(1)
-          : setEmailValidate(2);
+            ? setEmailValidate(1)
+            : setEmailValidate(2);
         setEmail(text);
         if (text == confirmEmail) {
           setConfirmEmailErrorVisible(false);
@@ -277,10 +277,10 @@ const Register = ({navigation, route, application}) => {
         text.length == 0
           ? setConfirmEmailValidate(0)
           : alph.test(text) && text == email
-          ? setConfirmEmailValidate(1)
-          : text == email
-          ? setConfirmEmailValidate(2)
-          : setConfirmEmailValidate(3);
+            ? setConfirmEmailValidate(1)
+            : text == email
+              ? setConfirmEmailValidate(2)
+              : setConfirmEmailValidate(3);
         setConfirmEmail(text);
         break;
 
@@ -295,8 +295,8 @@ const Register = ({navigation, route, application}) => {
         text.length == 0
           ? setPasswordValidate(0)
           : alph.test(text)
-          ? setPasswordValidate(1)
-          : setPasswordValidate(2);
+            ? setPasswordValidate(1)
+            : setPasswordValidate(2);
         setPassword(text);
         if (text == confirmPassword) {
           setConfirmPasswordErrorVisible(false);
@@ -311,10 +311,10 @@ const Register = ({navigation, route, application}) => {
         text.length == 0
           ? setConfirmPasswordValidate(0)
           : alph.test(text) && text == password
-          ? setConfirmPasswordValidate(1)
-          : text == password
-          ? setConfirmPasswordValidate(2)
-          : setConfirmPasswordValidate(3);
+            ? setConfirmPasswordValidate(1)
+            : text == password
+              ? setConfirmPasswordValidate(2)
+              : setConfirmPasswordValidate(3);
         setConfirmPassword(text);
         break;
 
@@ -325,8 +325,8 @@ const Register = ({navigation, route, application}) => {
         text.length == 0
           ? setAddressValidate(0)
           : alph.test(text)
-          ? setAddressValidate(1)
-          : setAddressValidate(2);
+            ? setAddressValidate(1)
+            : setAddressValidate(2);
         setAddress(text);
         break;
 
@@ -349,8 +349,8 @@ const Register = ({navigation, route, application}) => {
         text.length == 0
           ? setBuisnessIdentifierValidate(0)
           : alph.test(text)
-          ? setBuisnessIdentifierValidate(1)
-          : setBuisnessIdentifierValidate(2);
+            ? setBuisnessIdentifierValidate(1)
+            : setBuisnessIdentifierValidate(2);
         setBuisnessIdentifier(text);
         break;
 
@@ -447,8 +447,8 @@ const Register = ({navigation, route, application}) => {
               wilaya,
               commune,
               specialty,
-              location.latitude,
-              location.longitude,
+              location?.latitude,
+              location?.longitude,
             );
           } else {
             registerResponse = await paramedicalRegister(
@@ -808,23 +808,23 @@ const Register = ({navigation, route, application}) => {
       );
       if (lastNameValidate !== 1) {
         setLastNameErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (firstNameValidate !== 1) {
         setFirstNameErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (gender == 0) {
         setGenderErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (phoneValidate !== 1) {
         setPhoneErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (emailValidate !== 1) {
         setEmailErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (confirmEmailValidate !== 1) {
         setConfirmEmailErrorVisible(true);
@@ -861,9 +861,9 @@ const Register = ({navigation, route, application}) => {
       wilaya !== 0 &&
       commune !== 0 &&
       //specialtyValidate == 1 &&
-      specialty !== 0 &&
-      buisnessIdentifierValidate == 1 &&
-      location !== null
+      specialty !== 0
+      // buisnessIdentifierValidate == 1 &&
+      // location !== null
     ) {
       doctorParamedicalRegisterHandler();
     } else {
@@ -873,43 +873,43 @@ const Register = ({navigation, route, application}) => {
       );
       if (lastNameValidate !== 1) {
         setLastNameErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (firstNameValidate !== 1) {
         setFirstNameErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (gender == 0) {
         setGenderErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (phoneValidate !== 1) {
         setPhoneErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (emailValidate !== 1) {
         setEmailErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (confirmEmailValidate !== 1) {
         setConfirmEmailErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (passwordValidate !== 1) {
         setPasswordErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (confirmPasswordValidate !== 1) {
         setConfirmPasswordErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (addressValidate !== 1) {
         setAddressErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (wilaya == 0) {
         setWilayaErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (commune == 0) {
         setCommuneErrorVisible(true);
@@ -951,31 +951,31 @@ const Register = ({navigation, route, application}) => {
       );
       if (nameValidate !== 1) {
         setNameErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (phoneValidate !== 1) {
         setPhoneErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (emailValidate !== 1) {
         setEmailErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (confirmEmailValidate !== 1) {
         setConfirmEmailErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (passwordValidate !== 1) {
         setPasswordErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (confirmPasswordValidate !== 1) {
         setConfirmPasswordErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (addressValidate !== 1) {
         setAddressErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (wilaya == 0) {
         setWilayaErrorVisible(true);
@@ -1013,27 +1013,27 @@ const Register = ({navigation, route, application}) => {
       );
       if (phoneValidate !== 1) {
         setPhoneErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (emailValidate !== 1) {
         setEmailErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (confirmEmailValidate !== 1) {
         setConfirmEmailErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (passwordValidate !== 1) {
         setPasswordErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (confirmPasswordValidate !== 1) {
         setConfirmPasswordErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (addressValidate !== 1) {
         setAddressErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (wilaya == 0) {
         setWilayaErrorVisible(true);
@@ -1071,27 +1071,27 @@ const Register = ({navigation, route, application}) => {
       );
       if (phoneValidate !== 1) {
         setPhoneErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (emailValidate !== 1) {
         setEmailErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (confirmEmailValidate !== 1) {
         setConfirmEmailErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (passwordValidate !== 1) {
         setPasswordErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (confirmPasswordValidate !== 1) {
         setConfirmPasswordErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (addressValidate !== 1) {
         setAddressErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (wilaya == 0) {
         setWilayaErrorVisible(true);
@@ -1099,12 +1099,12 @@ const Register = ({navigation, route, application}) => {
       if (commune == 0) {
         setCommuneErrorVisible(true);
       }
-      if (buisnessIdentifierValidate !== 1) {
-        setBuisnessIdentifierErrorVisible(true);
-      }
-      if (location == null) {
-        setLocationErrorVisible(true);
-      }
+      // if (buisnessIdentifierValidate !== 1) {
+      //   setBuisnessIdentifierErrorVisible(true);
+      // }
+      // if (location == null) {
+      //   setLocationErrorVisible(true);
+      // }
     }
   };
 
@@ -1132,23 +1132,23 @@ const Register = ({navigation, route, application}) => {
       );
       if (lastNameValidate !== 1) {
         setLastNameErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (firstNameValidate !== 1) {
         setFirstNameErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (gender == 0) {
         setGenderErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (phoneValidate !== 1) {
         setPhoneErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (emailValidate !== 1) {
         setEmailErrorVisible(true);
-        scrollViewRef.current.scrollTo({y: 0});
+        scrollViewRef.current.scrollTo({ y: 0 });
       }
       if (confirmEmailValidate !== 1) {
         setConfirmEmailErrorVisible(true);
@@ -1291,7 +1291,7 @@ const Register = ({navigation, route, application}) => {
         style={[
           styles.container,
           {
-            transform: [{scale: drawer.scale}],
+            transform: [{ scale: drawer.scale }],
             borderTopLeftRadius: drawer.radius,
             borderBottomLeftRadius: drawer.radius,
           },
@@ -1324,8 +1324,8 @@ const Register = ({navigation, route, application}) => {
             />
           </View>
           {route.params.choice == USER_ROLES.PHARMACY ||
-          route.params.choice == USER_ROLES.CLINIC_HOSPITAL ||
-          route.params.choice == USER_ROLES.PHARMACY ? (
+            route.params.choice == USER_ROLES.CLINIC_HOSPITAL ||
+            route.params.choice == USER_ROLES.PHARMACY ? (
             <>
               <Text />
               <AnimatedTextInput
@@ -1341,7 +1341,7 @@ const Register = ({navigation, route, application}) => {
                   nameValidate == 0
                     ? application.language.data.ENTER_NAME
                     : nameValidate == 2 &&
-                      application.language.data.INVALID_NAME
+                    application.language.data.INVALID_NAME
                 }
                 errorTextVisible={nameErrorVisible}
               />
@@ -1363,7 +1363,7 @@ const Register = ({navigation, route, application}) => {
                     firstNameValidate == 0
                       ? application.language.data.ENTER_FIRST_NAME
                       : firstNameValidate == 2 &&
-                        application.language.data.INVALID_FIRST_NAME
+                      application.language.data.INVALID_FIRST_NAME
                   }
                   errorTextVisible={firstNameErrorVisible}
                 />
@@ -1381,7 +1381,7 @@ const Register = ({navigation, route, application}) => {
                     lastNameValidate == 0
                       ? application.language.data.ENTER_LAST_NAME
                       : lastNameValidate == 2 &&
-                        application.language.data.INVALID_LAST_NAME
+                      application.language.data.INVALID_LAST_NAME
                   }
                   errorTextVisible={lastNameErrorVisible}
                 />
@@ -1389,9 +1389,9 @@ const Register = ({navigation, route, application}) => {
             )
           )}
           {route.params.choice == USER_ROLES.PATIENT ||
-          route.params.choice == USER_ROLES.DOCTOR ||
-          route.params.choice == USER_ROLES.PARAMEDICAL ||
-          route.params.choice == USER_ROLES.BLOOD_DONOR ? (
+            route.params.choice == USER_ROLES.DOCTOR ||
+            route.params.choice == USER_ROLES.PARAMEDICAL ||
+            route.params.choice == USER_ROLES.BLOOD_DONOR ? (
             <>
               <Text />
               <View style={styles.pickerContainer}>
@@ -1433,7 +1433,7 @@ const Register = ({navigation, route, application}) => {
                         }
                       })()}
                       value={0}
-                      style={{textAlign: 'left'}}
+                      style={{ textAlign: 'left' }}
                     />
                     {gendersData.map(gender => (
                       <Picker.Item
@@ -1475,7 +1475,7 @@ const Register = ({navigation, route, application}) => {
                       name="caret-down-sharp"
                       color={COLORS.PRIMARY25}
                       size={12.5}
-                      style={[styles.pickerIcon, {opacity: 0.55}]}
+                      style={[styles.pickerIcon, { opacity: 0.55 }]}
                     />
                   </View>
                 </TouchableOpacity>
@@ -1541,8 +1541,8 @@ const Register = ({navigation, route, application}) => {
               confirmEmailValidate == 0
                 ? application.language.data.ENTER_EMAIL
                 : confirmEmailValidate == 2
-                ? application.language.data.INVALID_EMAIL
-                : confirmEmailValidate == 3 &&
+                  ? application.language.data.INVALID_EMAIL
+                  : confirmEmailValidate == 3 &&
                   application.language.data.EMAIL_DONT_MATCH
             }
             errorTextVisible={confirmEmailErrorVisible}
@@ -1561,7 +1561,7 @@ const Register = ({navigation, route, application}) => {
               passwordValidate == 0
                 ? application.language.data.ENTER_PASSWORD
                 : passwordValidate == 2 &&
-                  application.language.data.INVALID_PASSWORD
+                application.language.data.INVALID_PASSWORD
             }
             errorTextVisible={passwordErrorVisible}
           />
@@ -1579,8 +1579,8 @@ const Register = ({navigation, route, application}) => {
               confirmPasswordValidate == 0
                 ? application.language.data.ENTER_PASSWORD
                 : confirmPasswordValidate == 2
-                ? application.language.data.INVALID_PASSWORD
-                : confirmPasswordValidate == 3 &&
+                  ? application.language.data.INVALID_PASSWORD
+                  : confirmPasswordValidate == 3 &&
                   application.language.data.PASSWORD_DONT_MATCH
             }
             errorTextVisible={confirmPasswordErrorVisible}
@@ -1598,7 +1598,7 @@ const Register = ({navigation, route, application}) => {
               addressValidate == 0
                 ? application.language.data.ENTER_ADDRESS
                 : addressValidate == 2 &&
-                  application.language.data.INVALID_ADDRESS
+                application.language.data.INVALID_ADDRESS
             }
             errorTextVisible={addressErrorVisible}
           />
@@ -1653,10 +1653,9 @@ const Register = ({navigation, route, application}) => {
                       label={
                         wilaya.id +
                         ' - ' +
-                        `${
-                          application.language.key == LANAGUAGES_LIST.ARABIC
-                            ? wilaya.nom_ar
-                            : wilaya.nom_fr
+                        `${application.language.key == LANAGUAGES_LIST.ARABIC
+                          ? wilaya.nom_ar
+                          : wilaya.nom_fr
                         }`
                       }
                     />
@@ -1718,10 +1717,9 @@ const Register = ({navigation, route, application}) => {
                       label={
                         wilaya +
                         ' - ' +
-                        `${
-                          application.language.key == LANAGUAGES_LIST.ARABIC
-                            ? commune.nom_ar
-                            : commune.nom_fr
+                        `${application.language.key == LANAGUAGES_LIST.ARABIC
+                          ? commune.nom_ar
+                          : commune.nom_fr
                         }`
                       }
                     />
@@ -1735,7 +1733,7 @@ const Register = ({navigation, route, application}) => {
             )}
           </View>
           {route.params.choice == USER_ROLES.DOCTOR ||
-          route.params.choice == USER_ROLES.PARAMEDICAL ? (
+            route.params.choice == USER_ROLES.PARAMEDICAL ? (
             <>
               {/* 
              <AnimatedTextInput
@@ -1815,7 +1813,7 @@ const Register = ({navigation, route, application}) => {
             </>
           ) : null}
           {route.params.choice !== USER_ROLES.PATIENT &&
-          route.params.choice !== USER_ROLES.BLOOD_DONOR ? (
+            route.params.choice !== USER_ROLES.BLOOD_DONOR ? (
             <>
               <Text />
               <AnimatedTextInput
@@ -1826,13 +1824,13 @@ const Register = ({navigation, route, application}) => {
                 onChange={value => validate(value, 'buisnessIdentifier')}
                 placeholder={application.language.data.BUISNESS_IDENTIFIER}
                 multiline={false}
-                errorText={
-                  buisnessIdentifierValidate == 0
-                    ? application.language.data.ENTER_BUISNESS_IDENTIFIER
-                    : buisnessIdentifierValidate == 2 &&
-                      application.language.data.INVALID_BUISNESS_IDENTIFIER
-                }
-                errorTextVisible={buisnessIdentifierErrorVisible}
+              // errorText={
+              //   buisnessIdentifierValidate == 0
+              //     ? application.language.data.ENTER_BUISNESS_IDENTIFIER
+              //     : buisnessIdentifierValidate == 2 &&
+              //     application.language.data.INVALID_BUISNESS_IDENTIFIER
+              // }
+              // errorTextVisible={buisnessIdentifierErrorVisible}
               />
             </>
           ) : null}
@@ -1906,8 +1904,8 @@ const Register = ({navigation, route, application}) => {
                   style={styles.map}
                   region={
                     location && {
-                      latitude: location.latitude,
-                      longitude: location.longitude,
+                      // latitude: location.latitude,
+                      // longitude: location.longitude,
                       latitudeDelta: 0.0222,
                       longitudeDelta: 0.0121,
                     }
@@ -1919,9 +1917,9 @@ const Register = ({navigation, route, application}) => {
                       latitude: coordinates.latitude,
                       longitude: coordinates.longitude,
                     });
-                    if (locationErrorVisible) {
-                      setLocationErrorVisible(false);
-                    }
+                    // if (locationErrorVisible) {
+                    //   setLocationErrorVisible(false);
+                    // }
                   }}>
                   {location && (
                     <Marker coordinate={location}>
@@ -1981,7 +1979,7 @@ const mapStateProps = store => ({
 });
 
 const mapDispatchProps = dispatch => ({
-  login: () => {},
+  login: () => { },
 });
 
 export default connect(mapStateProps, mapDispatchProps)(Register);
@@ -2033,7 +2031,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: COLORS.PRIMARY12,
   },
-  pickerIcon: {marginHorizontal: 10},
+  pickerIcon: { marginHorizontal: 10 },
   datePicker: {
     height: 52.5,
     width: inputWidth,

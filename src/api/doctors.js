@@ -1,13 +1,14 @@
-import {API_URL} from '@env';
+import { API_URL } from '../../constants';
 
 export const fetchDoctors = async (wilaya, commune, specialite) => {
+  console.log('fetchDoctors', wilaya, commune, specialite);
   const response = await fetch(API_URL + '/professionnels/search/medecins', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-type': 'application/json',
     },
-    body: JSON.stringify({wilaya, commune, specialite}),
+    body: JSON.stringify({ wilaya, commune, specialite }),
   });
   const responseJson = await response.json();
   return responseJson;
@@ -19,9 +20,8 @@ export const doctorLogin = async (phoneEmail, password) => {
 
   const response = await fetch(
     API_URL +
-      `/api/medecin/login/${
-        phoneEmail.match(emailRegex) ? 'email' : 'telephone'
-      }`,
+    `/api/medecin/login/${phoneEmail.match(emailRegex) ? 'email' : 'telephone'
+    }`,
     {
       method: 'POST',
       headers: {
@@ -29,8 +29,8 @@ export const doctorLogin = async (phoneEmail, password) => {
         'Content-type': 'application/json',
       },
       body: phoneEmail.match(emailRegex)
-        ? JSON.stringify({email: phoneEmail, mdp: password})
-        : JSON.stringify({telephone: phoneEmail, mdp: password}),
+        ? JSON.stringify({ email: phoneEmail, mdp: password })
+        : JSON.stringify({ telephone: phoneEmail, mdp: password }),
     },
   );
   const responseJson = await response.json();
@@ -85,7 +85,7 @@ export const doctorCheckUnique = async (email, telephone) => {
       Accept: 'application/json',
       'Content-type': 'application/json',
     },
-    body: JSON.stringify({email, telephone}),
+    body: JSON.stringify({ email, telephone }),
   });
   const responseJson = await response.json();
   return responseJson;
@@ -426,10 +426,10 @@ export const doctorUpdateWorkingHours = async (
     },
     body: sessionDuration
       ? JSON.stringify({
-          horaires: workingDays,
-          dureeSeance: sessionDuration,
-        })
-      : JSON.stringify({horaires: workingDays}),
+        horaires: workingDays,
+        dureeSeance: sessionDuration,
+      })
+      : JSON.stringify({ horaires: workingDays }),
   });
   const responseJson = await response.json();
   return responseJson;

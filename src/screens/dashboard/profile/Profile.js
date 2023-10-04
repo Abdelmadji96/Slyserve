@@ -74,6 +74,7 @@ const Profile = ({ navigation, application, user, role, token }) => {
     try {
       const response = await fetchDoctorProfile(user.id);
       //alert(JSON.stringify(response))
+      console.log('responseresponse', response);
       if (response) {
         setProfile(response);
         setWeekDays(
@@ -237,15 +238,15 @@ const Profile = ({ navigation, application, user, role, token }) => {
                 provider={PROVIDER_GOOGLE}
                 style={styles.map}
                 region={{
-                  latitude: profile.infos.latitude,
-                  longitude: profile.infos.longitude,
+                  latitude: profile?.infos ? profile?.infos?.latitude : 10,
+                  longitude: profile?.infos ? profile?.infos?.longitude : 10,
                   latitudeDelta: 0.0922,
                   longitudeDelta: 0.0221,
                 }}>
                 <Marker
                   coordinate={{
-                    latitude: profile.infos.latitude,
-                    longitude: profile.infos.longitude,
+                    latitude: profile?.infos ? profile?.infos?.latitude : 10,
+                    longitude: profile?.infos ? profile?.infos?.longitude : 10,
                   }}>
                   <Ionicons
                     name="location-sharp"

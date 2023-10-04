@@ -1,4 +1,4 @@
-import {API_URL} from '@env';
+import { API_URL } from '../../constants';
 
 export const patientLogin = async (phoneEmail, password) => {
   const emailRegex =
@@ -6,9 +6,8 @@ export const patientLogin = async (phoneEmail, password) => {
 
   const response = await fetch(
     API_URL +
-      `/api/particulier/login/${
-        phoneEmail.match(emailRegex) ? 'email' : 'telephone'
-      }`,
+    `/api/particulier/login/${phoneEmail.match(emailRegex) ? 'email' : 'telephone'
+    }`,
     {
       method: 'POST',
       headers: {
@@ -16,8 +15,8 @@ export const patientLogin = async (phoneEmail, password) => {
         'Content-type': 'application/json',
       },
       body: phoneEmail.match(emailRegex)
-        ? JSON.stringify({email: phoneEmail, mdp: password})
-        : JSON.stringify({telephone: phoneEmail, mdp: password}),
+        ? JSON.stringify({ email: phoneEmail, mdp: password })
+        : JSON.stringify({ telephone: phoneEmail, mdp: password }),
     },
   );
   const responseJson = await response.json();
@@ -25,13 +24,14 @@ export const patientLogin = async (phoneEmail, password) => {
 };
 
 export const patientCheckUnique = async (email, telephone) => {
+  console.log('patientCheckUnique', email, telephone);
   const response = await fetch(API_URL + '/api/particulier/check', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-type': 'application/json',
     },
-    body: JSON.stringify({email, telephone}),
+    body: JSON.stringify({ email, telephone }),
   });
   const responseJson = await response.json();
   return responseJson;

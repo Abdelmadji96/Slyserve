@@ -1,4 +1,4 @@
-import {API_URL} from '@env';
+import { API_URL } from '../../constants';
 
 export const fetchCommunes = async wilaya_id => {
   const response = await fetch(API_URL + '/api/communes', {
@@ -7,7 +7,7 @@ export const fetchCommunes = async wilaya_id => {
       Accept: 'application/json',
       'Content-type': 'application/json',
     },
-    body: JSON.stringify({wilaya_id}),
+    body: JSON.stringify({ wilaya_id }),
   });
   const responseJson = await response.json();
   return responseJson;

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -9,23 +9,23 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {connect} from 'react-redux';
-import {COLORS} from '../../../constants/colors';
-import {HEIGHT, WIDTH} from '../../../constants/dimensions';
-import {useTheme} from '../../../context/theme';
+import { connect } from 'react-redux';
+import { COLORS } from '../../../constants/colors';
+import { HEIGHT, WIDTH } from '../../../constants/dimensions';
+import { useTheme } from '../../../context/theme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import Animated from 'react-native-reanimated';
 import DrawerHiddenView from '../../../components/drawerHiddenView/DrawerHiddenView';
 import AnimatedTextInput from '../../../components/input/AnimatedTextInput';
 import FilledAnimatedTextInput from '../../../components/input/FilledAnimatedTextInput';
-import {fetchWilayas} from '../../../api/wilayas';
-import {fetchCommunes} from '../../../api/communes';
+import { fetchWilayas } from '../../../api/wilayas';
+import { fetchCommunes } from '../../../api/communes';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Picker} from '@react-native-picker/picker';
-import {LANAGUAGES_LIST} from '../../../constants/languages';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
-import {updateUser} from '../../../redux/actions/user';
+import { Picker } from '@react-native-picker/picker';
+import { LANAGUAGES_LIST } from '../../../constants/languages';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import { updateUser } from '../../../redux/actions/user';
 import {
   clinicUpdateAddress,
   clinicUpdateEmail,
@@ -45,12 +45,12 @@ const ClinicEditProfile = ({
   token,
   updateProfile,
 }) => {
-  const {drawer} = useTheme();
+  const { drawer } = useTheme();
   const [address, setAddress] = useState(user?.nom_de_rue);
   const [addressValidate, setAddressValidate] = useState(1);
   const [addressErrorVisible, setAddressErrorVisible] = useState(false);
-  const [wilaya, setWilaya] = useState(user?.wilaya_id);
-  const [commune, setCommune] = useState(user?.commune_id);
+  const [wilaya, setWilaya] = useState(user?.wilaya);
+  const [commune, setCommune] = useState(user?.commune);
   const [email, setEmail] = useState(user?.email);
   const [emailValidate, setEmailValidate] = useState(1);
   const [emailErrorVisible, setEmailErrorVisible] = useState(false);
@@ -91,8 +91,8 @@ const ClinicEditProfile = ({
         text.length == 0
           ? setEmailValidate(0)
           : alph.test(text)
-          ? setEmailValidate(1)
-          : setEmailValidate(2);
+            ? setEmailValidate(1)
+            : setEmailValidate(2);
         setEmail(text);
         if (text == confirmEmail) {
           setConfirmEmailErrorVisible(false);
@@ -109,10 +109,10 @@ const ClinicEditProfile = ({
         text.length == 0
           ? setConfirmEmailValidate(0)
           : alph.test(text) && text == email
-          ? setConfirmEmailValidate(1)
-          : text == email
-          ? setConfirmEmailValidate(2)
-          : setConfirmEmailValidate(3);
+            ? setConfirmEmailValidate(1)
+            : text == email
+              ? setConfirmEmailValidate(2)
+              : setConfirmEmailValidate(3);
         setConfirmEmail(text);
         break;
 
@@ -127,8 +127,8 @@ const ClinicEditProfile = ({
         text.length == 0
           ? setPasswordValidate(0)
           : alph.test(text)
-          ? setPasswordValidate(1)
-          : setPasswordValidate(2);
+            ? setPasswordValidate(1)
+            : setPasswordValidate(2);
         setPassword(text);
         if (text == confirmPassword) {
           setConfirmPasswordErrorVisible(false);
@@ -143,10 +143,10 @@ const ClinicEditProfile = ({
         text.length == 0
           ? setConfirmPasswordValidate(0)
           : alph.test(text) && text == password
-          ? setConfirmPasswordValidate(1)
-          : text == password
-          ? setConfirmPasswordValidate(2)
-          : setConfirmPasswordValidate(3);
+            ? setConfirmPasswordValidate(1)
+            : text == password
+              ? setConfirmPasswordValidate(2)
+              : setConfirmPasswordValidate(3);
         setConfirmPassword(text);
         break;
 
@@ -157,8 +157,8 @@ const ClinicEditProfile = ({
         text.length == 0
           ? setAddressValidate(0)
           : alph.test(text)
-          ? setAddressValidate(1)
-          : setAddressValidate(2);
+            ? setAddressValidate(1)
+            : setAddressValidate(2);
         setAddress(text);
         break;
 
@@ -174,8 +174,8 @@ const ClinicEditProfile = ({
     }
   };
 
-  const getCommunes = async wilaya_id => {
-    const response = await fetchCommunes(wilaya_id);
+  const getCommunes = async wilaya => {
+    const response = await fetchCommunes(wilaya);
     if (response) {
       setCommunes(response);
     }
@@ -183,7 +183,7 @@ const ClinicEditProfile = ({
 
   useEffect(() => {
     getWilayas();
-    getCommunes(user.wilaya_id);
+    getCommunes(user.wilaya);
   }, []);
 
   const handleUpdateProfile = async () => {
@@ -199,7 +199,7 @@ const ClinicEditProfile = ({
         //alert(JSON.stringify(addressResponse));
         if (addressResponse) {
           if (addressResponse['message'] == 'success') {
-            await updateProfile({...user, nom_de_rue: address});
+            await updateProfile({ ...user, nom_de_rue: address });
           }
         }
       }
@@ -208,7 +208,7 @@ const ClinicEditProfile = ({
         //alert(JSON.stringify(emailResponse));
         if (emailResponse) {
           if (emailResponse['message'] == 'success') {
-            await updateProfile({...user, email});
+            await updateProfile({ ...user, email });
           }
         }
       }
@@ -252,8 +252,8 @@ const ClinicEditProfile = ({
         address !== user.nom_de_rue ||
         email !== user.email ||
         password !== '' ||
-        wilaya !== user.wilaya_id ||
-        commune !== user.commune_id ||
+        wilaya !== user.wilaya ||
+        commune !== user.commune ||
         location.latitude !== user.latitude ||
         location.longitude !== user.longitude
       ) {
@@ -271,7 +271,7 @@ const ClinicEditProfile = ({
         style={[
           styles.container,
           {
-            transform: [{scale: drawer.scale}],
+            transform: [{ scale: drawer.scale }],
             borderBottomLeftRadius: drawer.radius,
             borderTopLeftRadius: drawer.radius,
           },
@@ -295,7 +295,7 @@ const ClinicEditProfile = ({
         </View>
         <ScrollView
           style={styles.bottomView}
-          contentContainerStyle={{alignItems: 'center'}}>
+          contentContainerStyle={{ alignItems: 'center' }}>
           <Text />
           <FilledAnimatedTextInput
             inputHeight={HEIGHT / 12.5}
@@ -309,7 +309,7 @@ const ClinicEditProfile = ({
               addressValidate == 0
                 ? application.language.data.ENTER_ADDRESS
                 : addressValidate == 2 &&
-                  application.language.data.INVALID_ADDRESS
+                application.language.data.INVALID_ADDRESS
             }
             errorTextVisible={addressErrorVisible}
           />
@@ -342,8 +342,8 @@ const ClinicEditProfile = ({
               confirmEmailValidate == 0
                 ? application.language.data.ENTER_EMAIL
                 : confirmEmailValidate == 2
-                ? application.language.data.INVALID_EMAIL
-                : confirmEmailValidate == 3 &&
+                  ? application.language.data.INVALID_EMAIL
+                  : confirmEmailValidate == 3 &&
                   application.language.data.EMAIL_DONT_MATCH
             }
             errorTextVisible={confirmEmailErrorVisible}
@@ -362,7 +362,7 @@ const ClinicEditProfile = ({
               passwordValidate == 0
                 ? application.language.data.ENTER_PASSWORD
                 : passwordValidate == 2 &&
-                  application.language.data.INVALID_PASSWORD
+                application.language.data.INVALID_PASSWORD
             }
             errorTextVisible={passwordErrorVisible}
           />
@@ -380,8 +380,8 @@ const ClinicEditProfile = ({
               confirmPasswordValidate == 0
                 ? application.language.data.ENTER_PASSWORD
                 : confirmPasswordValidate == 2
-                ? application.language.data.INVALID_PASSWORD
-                : confirmPasswordValidate == 3 &&
+                  ? application.language.data.INVALID_PASSWORD
+                  : confirmPasswordValidate == 3 &&
                   application.language.data.PASSWORD_DONT_MATCH
             }
             errorTextVisible={confirmPasswordErrorVisible}
@@ -416,10 +416,9 @@ const ClinicEditProfile = ({
                       label={
                         wilaya.id +
                         ' - ' +
-                        `${
-                          application.language.key == LANAGUAGES_LIST.ARABIC
-                            ? wilaya.nom_ar
-                            : wilaya.nom_fr
+                        `${application.language.key == LANAGUAGES_LIST.ARABIC
+                          ? wilaya.nom_ar
+                          : wilaya.nom_fr
                         }`
                       }
                     />
@@ -456,10 +455,9 @@ const ClinicEditProfile = ({
                       label={
                         wilaya +
                         ' - ' +
-                        `${
-                          application.language.key == LANAGUAGES_LIST.ARABIC
-                            ? commune.nom_ar
-                            : commune.nom_fr
+                        `${application.language.key == LANAGUAGES_LIST.ARABIC
+                          ? commune.nom_ar
+                          : commune.nom_fr
                         }`
                       }
                     />
@@ -572,7 +570,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     color: COLORS.PRIMARY12,
   },
-  bottomView: {flex: 1},
+  bottomView: { flex: 1 },
   pickerContainer: {
     width: inputWidth,
     alignSelf: 'center',
@@ -584,7 +582,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: COLORS.PRIMARY12,
   },
-  pickerIcon: {marginHorizontal: 10},
+  pickerIcon: { marginHorizontal: 10 },
   mapContainer: {
     height: HEIGHT / 3,
     width: WIDTH * 0.9,
