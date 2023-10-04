@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -10,32 +10,32 @@ import {
   View,
 } from 'react-native';
 import Animated from 'react-native-reanimated';
-import {COLORS} from '../../constants/colors';
-import {useTheme} from '../../context/theme';
-import {connect} from 'react-redux';
+import { COLORS } from '../../constants/colors';
+import { useTheme } from '../../context/theme';
+import { connect } from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {HEIGHT, WIDTH} from '../../constants/dimensions';
+import { HEIGHT, WIDTH } from '../../constants/dimensions';
 import AnimatedTextInput from '../../components/input/AnimatedTextInput';
-import {isValidPhoneNumber} from 'libphonenumber-js';
+import { isValidPhoneNumber } from 'libphonenumber-js';
 import DrawerHiddenView from '../../components/drawerHiddenView/DrawerHiddenView';
-import {USER_ROLES} from '../../constants/user';
-import {patientLogin} from '../../api/patients';
-import {LANAGUAGES_LIST} from '../../constants/languages';
-import {signIn} from '../../redux/actions/user';
-import {doctorLogin} from '../../api/doctors';
-import {paramedicalLogin} from '../../api/paramedicals';
-import {clinicHospitalLogin} from '../../api/clinics';
-import {pharmacyLogin} from '../../api/pharmacies';
-import {StackActions} from '@react-navigation/native';
-import {bloodDonorLogin} from '../../api/bloodDonors';
-import {ambulanceLogin} from '../../api/ambulances';
-import {laboratoryLogin} from '../../api/laboratories';
+import { USER_ROLES } from '../../constants/user';
+import { patientLogin } from '../../api/patients';
+import { LANAGUAGES_LIST } from '../../constants/languages';
+import { signIn } from '../../redux/actions/user';
+import { doctorLogin } from '../../api/doctors';
+import { paramedicalLogin } from '../../api/paramedicals';
+import { clinicHospitalLogin } from '../../api/clinics';
+import { pharmacyLogin } from '../../api/pharmacies';
+import { StackActions } from '@react-navigation/native';
+import { bloodDonorLogin } from '../../api/bloodDonors';
+import { ambulanceLogin } from '../../api/ambulances';
+import { laboratoryLogin } from '../../api/laboratories';
 
 const buttonHeight = HEIGHT / 10;
 const logoSize = WIDTH / 3;
 
-const Login = ({navigation, route, application, login}) => {
-  const {drawer} = useTheme();
+const Login = ({ navigation, route, application, login }) => {
+  const { drawer } = useTheme();
   const [phoneEmail, setPhoneEmail] = useState('');
   const [phoneEmailValidate, setPhoneEmailValidate] = useState(0);
   const [phoneEmailErrorVisible, setPhoneEmailErrorVisible] = useState(false);
@@ -56,8 +56,8 @@ const Login = ({navigation, route, application, login}) => {
         text.length == 0
           ? setPhoneEmailValidate(0)
           : alph.test(text) || isValidPhoneNumber('+213 ' + text, 'DZ')
-          ? setPhoneEmailValidate(1)
-          : setPhoneEmailValidate(2);
+            ? setPhoneEmailValidate(1)
+            : setPhoneEmailValidate(2);
         setPhoneEmail(text);
         break;
 
@@ -68,8 +68,8 @@ const Login = ({navigation, route, application, login}) => {
         text.length == 0
           ? setPasswordValidate(0)
           : alph.test(text)
-          ? setPasswordValidate(1)
-          : setPasswordValidate(2);
+            ? setPasswordValidate(1)
+            : setPasswordValidate(2);
         setPassword(text);
         break;
 
@@ -82,6 +82,7 @@ const Login = ({navigation, route, application, login}) => {
     if (phoneEmailValidate == 1 && passwordValidate == 1) {
       setLoadingModalVisible(true);
       var response;
+      console.log('patientLogin', phoneEmail, password);
       try {
         switch (route.params.choice) {
           case USER_ROLES.PATIENT:
@@ -492,7 +493,7 @@ const Login = ({navigation, route, application, login}) => {
         style={[
           styles.container,
           {
-            transform: [{scale: drawer.scale}],
+            transform: [{ scale: drawer.scale }],
             borderTopLeftRadius: drawer.radius,
             borderBottomLeftRadius: drawer.radius,
           },
@@ -534,7 +535,7 @@ const Login = ({navigation, route, application, login}) => {
               phoneEmailValidate == 0
                 ? application.language.data.ENTER_EMAIL_PHONE
                 : phoneEmailValidate == 2 &&
-                  application.language.data.INVALID_EMAIL_PHONE
+                application.language.data.INVALID_EMAIL_PHONE
             }
             errorTextVisible={phoneEmailErrorVisible}
           />
@@ -551,7 +552,7 @@ const Login = ({navigation, route, application, login}) => {
               passwordValidate == 0
                 ? application.language.data.ENTER_PASSWORD
                 : passwordValidate == 2 &&
-                  application.language.data.INVALID_PASSWORD
+                application.language.data.INVALID_PASSWORD
             }
             errorTextVisible={passwordErrorVisible}
           />

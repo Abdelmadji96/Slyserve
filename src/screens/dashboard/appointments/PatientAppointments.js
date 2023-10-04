@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Alert,
   StyleSheet,
@@ -10,11 +10,11 @@ import {
   Modal,
 } from 'react-native';
 import Animated from 'react-native-reanimated';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import DrawerHiddenView from '../../../components/drawerHiddenView/DrawerHiddenView';
-import {COLORS} from '../../../constants/colors';
-import {HEIGHT, WIDTH} from '../../../constants/dimensions';
-import {useTheme} from '../../../context/theme';
+import { COLORS } from '../../../constants/colors';
+import { HEIGHT, WIDTH } from '../../../constants/dimensions';
+import { useTheme } from '../../../context/theme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Feather from 'react-native-vector-icons/Feather';
@@ -23,8 +23,8 @@ import {
   patientCancelAppointment,
   patientFetchAppointments,
 } from '../../../api/patients';
-import {useFocusEffect} from '@react-navigation/core';
-import {LANAGUAGES_LIST} from '../../../constants/languages';
+import { useFocusEffect } from '@react-navigation/core';
+import { LANAGUAGES_LIST } from '../../../constants/languages';
 
 const tabsContainerHeight = HEIGHT / 12.5;
 const tabsContainerWidth = WIDTH * 0.85;
@@ -36,8 +36,8 @@ const appointmentWidth = WIDTH * 0.9;
 const appointmentDateIconSize = 17.5;
 const professionalIconContainerSize = 40;
 
-const PatientAppointments = ({navigation, route, application, user, token}) => {
-  const {drawer} = useTheme();
+const PatientAppointments = ({ navigation, route, application, user, token }) => {
+  const { drawer } = useTheme();
   const [appointments, setAppointments] = useState(null);
   const [tempAppointments, setTempAppointments] = useState(null);
   const [pastAppointments, setPastAppointments] = useState(null);
@@ -149,7 +149,7 @@ const PatientAppointments = ({navigation, route, application, user, token}) => {
         style={[
           styles.container,
           {
-            transform: [{scale: drawer.scale}],
+            transform: [{ scale: drawer.scale }],
             borderBottomLeftRadius: drawer.radius,
             borderTopLeftRadius: drawer.radius,
           },
@@ -221,7 +221,7 @@ const PatientAppointments = ({navigation, route, application, user, token}) => {
               <FlatList
                 showsVerticalScrollIndicator={false}
                 data={tempAppointments}
-                renderItem={({item, index}) => (
+                renderItem={({ item, index }) => (
                   <View
                     style={[
                       styles.appointmentContainer,
@@ -247,7 +247,7 @@ const PatientAppointments = ({navigation, route, application, user, token}) => {
                           color={COLORS.PRIMARY12}
                           style={styles.appointmentDateIcon}
                         />
-                        <Text>{item.heure_rdv.substring(0, 5)}</Text>
+                        <Text>{item?.heure_rdv?.substring(0, 5)}</Text>
                       </View>
                     </View>
                     <View style={styles.professionalContainer}>
@@ -259,7 +259,7 @@ const PatientAppointments = ({navigation, route, application, user, token}) => {
                         />
                       </View>
                       <View style={styles.professionalNameContainer}>
-                        <View style={{flexDirection: 'row'}}>
+                        <View style={{ flexDirection: 'row' }}>
                           <Text style={styles.professionalName}>
                             {item.nom}{' '}
                           </Text>
@@ -301,7 +301,7 @@ const PatientAppointments = ({navigation, route, application, user, token}) => {
                       <TouchableOpacity
                         style={[
                           styles.button,
-                          {width: selectedTab == 1 ? '45%' : '80%'},
+                          { width: selectedTab == 1 ? '45%' : '80%' },
                         ]}
                         onPress={() => {
                           // if (
@@ -325,7 +325,7 @@ const PatientAppointments = ({navigation, route, application, user, token}) => {
                       </TouchableOpacity>
                       {selectedTab == 1 && (
                         <TouchableOpacity
-                          style={[styles.button, {width: '45%'}]}
+                          style={[styles.button, { width: '45%' }]}
                           onPress={() => {
                             Alert.alert(
                               application.language.data.ALERT,
@@ -399,7 +399,7 @@ const PatientAppointments = ({navigation, route, application, user, token}) => {
             )
           ) : (
             <View
-              style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+              style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
               <ActivityIndicator size="small" color={COLORS.PRIMARY12} />
             </View>
           )}
@@ -505,8 +505,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  appointmentDateItemContainer: {flexDirection: 'row', alignItems: 'center'},
-  appointmentDateIcon: {marginRight: 5},
+  appointmentDateItemContainer: { flexDirection: 'row', alignItems: 'center' },
+  appointmentDateIcon: { marginRight: 5 },
   professionalContainer: {
     flexDirection: 'row',
     alignItems: 'center',

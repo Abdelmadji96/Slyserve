@@ -1,4 +1,4 @@
-import {API_URL} from '@env';
+import { API_URL } from '../../constants';
 
 export const fetchBloodDonors = async (
   wilaya_id,

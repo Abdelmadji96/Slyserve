@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Alert,
   ScrollView,
@@ -7,25 +7,25 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {connect} from 'react-redux';
-import {COLORS} from '../../../constants/colors';
-import {HEIGHT, WIDTH} from '../../../constants/dimensions';
-import {useTheme} from '../../../context/theme';
+import { connect } from 'react-redux';
+import { COLORS } from '../../../constants/colors';
+import { HEIGHT, WIDTH } from '../../../constants/dimensions';
+import { useTheme } from '../../../context/theme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import Animated from 'react-native-reanimated';
 import DrawerHiddenView from '../../../components/drawerHiddenView/DrawerHiddenView';
 import AnimatedTextInput from '../../../components/input/AnimatedTextInput';
 import FilledAnimatedTextInput from '../../../components/input/FilledAnimatedTextInput';
-import {fetchWilayas} from '../../../api/wilayas';
-import {fetchCommunes} from '../../../api/communes';
+import { fetchWilayas } from '../../../api/wilayas';
+import { fetchCommunes } from '../../../api/communes';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {Picker} from '@react-native-picker/picker';
-import {LANAGUAGES_LIST} from '../../../constants/languages';
+import { Picker } from '@react-native-picker/picker';
+import { LANAGUAGES_LIST } from '../../../constants/languages';
 import NumericFilledAnimatedTextInput from '../../../components/input/NumericFilledAnimatedInput';
 import WorkingDay from '../../../components/workingDay/WorkingDay';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import {
   doctorUpdateAddress,
   doctorUpdateEmail,
@@ -35,8 +35,8 @@ import {
   doctorUpdateSpokenLanguages,
   doctorUpdateWorkingHours,
 } from '../../../api/doctors';
-import {USER_ROLES} from '../../../constants/user';
-import {updateUser} from '../../../redux/actions/user';
+import { USER_ROLES } from '../../../constants/user';
+import { updateUser } from '../../../redux/actions/user';
 
 const inputHeight = HEIGHT / 12.5;
 const inputWidth = WIDTH * 0.9;
@@ -115,11 +115,11 @@ const EditProfile = ({
   token,
   updateProfile,
 }) => {
-  const {drawer} = useTheme();
+  const { drawer } = useTheme();
   const [address, setAddress] = useState(user?.nom_de_rue);
   const [addressValidate, setAddressValidate] = useState(1);
   const [addressErrorVisible, setAddressErrorVisible] = useState(false);
-  const [wilaya, setWilaya] = useState(user?.wilaya_id);
+  const [wilaya, setWilaya] = useState(user?.wilaya);
   const [commune, setCommune] = useState(user?.communeId);
   const [email, setEmail] = useState(user?.email);
   const [emailValidate, setEmailValidate] = useState(1);
@@ -172,8 +172,8 @@ const EditProfile = ({
   const [weekDays, setWeekDays] = useState(weekDaysArray);
 
   const [location, setLocation] = useState({
-    latitude: route.params.profile.infos.latitude,
-    longitude: route.params.profile.infos.longitude,
+    latitude: route.params.profile?.infos ? route.params.profile?.infos?.latitude : 10,
+    longitude: route.params.profile?.infos ? route.params.profile?.infos?.longitude : 10,
   });
   const [sessionDuration, setSessionDuration] = useState(user?.duree_seance);
 
@@ -193,8 +193,8 @@ const EditProfile = ({
         text.length == 0
           ? setEmailValidate(0)
           : alph.test(text)
-          ? setEmailValidate(1)
-          : setEmailValidate(2);
+            ? setEmailValidate(1)
+            : setEmailValidate(2);
         setEmail(text);
         if (text == confirmEmail) {
           setConfirmEmailErrorVisible(false);
@@ -211,10 +211,10 @@ const EditProfile = ({
         text.length == 0
           ? setConfirmEmailValidate(0)
           : alph.test(text) && text == email
-          ? setConfirmEmailValidate(1)
-          : text == email
-          ? setConfirmEmailValidate(2)
-          : setConfirmEmailValidate(3);
+            ? setConfirmEmailValidate(1)
+            : text == email
+              ? setConfirmEmailValidate(2)
+              : setConfirmEmailValidate(3);
         setConfirmEmail(text);
         break;
 
@@ -232,8 +232,8 @@ const EditProfile = ({
         text.length == 0
           ? setPasswordValidate(0)
           : alph.test(text)
-          ? setPasswordValidate(1)
-          : setPasswordValidate(2);
+            ? setPasswordValidate(1)
+            : setPasswordValidate(2);
         setPassword(text);
         if (text == confirmPassword) {
           setConfirmPasswordErrorVisible(false);
@@ -255,10 +255,10 @@ const EditProfile = ({
         text.length == 0
           ? setConfirmPasswordValidate(0)
           : alph.test(text) && text == password
-          ? setConfirmPasswordValidate(1)
-          : text == password
-          ? setConfirmPasswordValidate(2)
-          : setConfirmPasswordValidate(3);
+            ? setConfirmPasswordValidate(1)
+            : text == password
+              ? setConfirmPasswordValidate(2)
+              : setConfirmPasswordValidate(3);
         setConfirmPassword(text);
         break;
 
@@ -269,8 +269,8 @@ const EditProfile = ({
         text.length == 0
           ? setAddressValidate(0)
           : alph.test(text)
-          ? setAddressValidate(1)
-          : setAddressValidate(2);
+            ? setAddressValidate(1)
+            : setAddressValidate(2);
         setAddress(text);
         break;
 
@@ -282,8 +282,8 @@ const EditProfile = ({
         text.length == 0
           ? setPresentationValidate(0)
           : alph.test(text)
-          ? setPresentationValidate(1)
-          : setPresentationValidate(2);
+            ? setPresentationValidate(1)
+            : setPresentationValidate(2);
         setPresentation(text);
         break;
 
@@ -295,8 +295,8 @@ const EditProfile = ({
         text.length == 0
           ? setSpokenLanguagesValidate(0)
           : alph.test(text)
-          ? setSpokenLanguagesValidate(1)
-          : setSpokenLanguagesValidate(2);
+            ? setSpokenLanguagesValidate(1)
+            : setSpokenLanguagesValidate(2);
         setSpokenLanguages(text);
         break;
 
@@ -308,8 +308,8 @@ const EditProfile = ({
         text.length == 0
           ? setFormationsValidate(0)
           : alph.test(text)
-          ? setFormationsValidate(1)
-          : setFormationsValidate(2);
+            ? setFormationsValidate(1)
+            : setFormationsValidate(2);
         setFormations(text);
         break;
 
@@ -321,8 +321,8 @@ const EditProfile = ({
         text.length == 0
           ? setTeleconsultationPricingValidate(0)
           : alph.test(text)
-          ? setTeleconsultationPricingValidate(1)
-          : setTeleconsultationPricingValidate(2);
+            ? setTeleconsultationPricingValidate(1)
+            : setTeleconsultationPricingValidate(2);
         setTeleconsultationPricing(text);
         break;
 
@@ -334,8 +334,8 @@ const EditProfile = ({
         text.length == 0
           ? setCabinetPricingValidate(0)
           : alph.test(text)
-          ? setCabinetPricingValidate(1)
-          : setCabinetPricingValidate(2);
+            ? setCabinetPricingValidate(1)
+            : setCabinetPricingValidate(2);
         setCabinetPricing(text);
         break;
 
@@ -351,8 +351,8 @@ const EditProfile = ({
     }
   };
 
-  const getCommunes = async wilaya_id => {
-    const response = await fetchCommunes(wilaya_id);
+  const getCommunes = async wilaya => {
+    const response = await fetchCommunes(wilaya);
     if (response) {
       setCommunes(response);
     }
@@ -360,7 +360,7 @@ const EditProfile = ({
 
   useEffect(() => {
     getWilayas();
-    getCommunes(user.wilaya_id);
+    getCommunes(user.wilaya);
     setWeekDays(
       weekDays.map(item => ({
         ...item,
@@ -385,7 +385,7 @@ const EditProfile = ({
         //alert(JSON.stringify(addressResponse));
         if (addressResponse) {
           if (addressResponse['message'] == 'success') {
-            await updateProfile({...user, nom_de_rue: address});
+            await updateProfile({ ...user, nom_de_rue: address });
           }
         }
       }
@@ -394,7 +394,7 @@ const EditProfile = ({
         //alert(JSON.stringify(emailResponse));
         if (emailResponse) {
           if (emailResponse['message'] == 'success') {
-            await updateProfile({...user, email});
+            await updateProfile({ ...user, email });
           }
         }
       }
@@ -419,7 +419,7 @@ const EditProfile = ({
         //alert(JSON.stringify(presentationResponse));
         if (presentationResponse) {
           if (presentationResponse['message'] == 'success') {
-            await updateProfile({...user, presentation});
+            await updateProfile({ ...user, presentation });
           }
         }
       }
@@ -431,7 +431,7 @@ const EditProfile = ({
         //alert(JSON.stringify(spokenLanguagesResponse));
         if (spokenLanguagesResponse) {
           if (spokenLanguagesResponse['message'] == 'success') {
-            await updateProfile({...user, langues_parlees: spokenLanguages});
+            await updateProfile({ ...user, langues_parlees: spokenLanguages });
           }
         }
       }
@@ -474,7 +474,7 @@ const EditProfile = ({
           token,
           weekDays
             .map(day => ({
-              jour: {id: day.day},
+              jour: { id: day.day },
               ouverture: day.opening + ':00',
               fermeture: day.closing + ':00',
               ferme: !route.params.profile.horaires
@@ -512,7 +512,7 @@ const EditProfile = ({
   const objectsEqual = (o1, o2) =>
     typeof o1 === 'object' && Object.keys(o1).length > 0
       ? Object.keys(o1).length === Object.keys(o2).length &&
-        Object.keys(o1).every(p => objectsEqual(o1[p], o2[p]))
+      Object.keys(o1).every(p => objectsEqual(o1[p], o2[p]))
       : o1 === o2;
 
   const arraysEqual = (a1, a2) =>
@@ -537,8 +537,8 @@ const EditProfile = ({
         address !== user.nom_de_rue ||
         email !== user.email ||
         password !== '' ||
-        wilaya !== user.wilaya_id ||
-        commune !== user.commune_id ||
+        wilaya !== user.wilaya ||
+        commune !== user.commune ||
         location.latitude !== user.latitude ||
         location.longitude !== user.longitude ||
         presentation !== user.presentation ||
@@ -572,7 +572,7 @@ const EditProfile = ({
         style={[
           styles.container,
           {
-            transform: [{scale: drawer.scale}],
+            transform: [{ scale: drawer.scale }],
             borderBottomLeftRadius: drawer.radius,
             borderTopLeftRadius: drawer.radius,
           },
@@ -596,7 +596,7 @@ const EditProfile = ({
         </View>
         <ScrollView
           style={styles.bottomView}
-          contentContainerStyle={{alignItems: 'center'}}>
+          contentContainerStyle={{ alignItems: 'center' }}>
           <Text />
           <FilledAnimatedTextInput
             inputHeight={HEIGHT / 12.5}
@@ -610,7 +610,7 @@ const EditProfile = ({
               addressValidate == 0
                 ? application.language.data.ENTER_ADDRESS
                 : addressValidate == 2 &&
-                  application.language.data.INVALID_ADDRESS
+                application.language.data.INVALID_ADDRESS
             }
             errorTextVisible={addressErrorVisible}
           />
@@ -643,8 +643,8 @@ const EditProfile = ({
               confirmEmailValidate == 0
                 ? application.language.data.ENTER_EMAIL
                 : confirmEmailValidate == 2
-                ? application.language.data.INVALID_EMAIL
-                : confirmEmailValidate == 3 &&
+                  ? application.language.data.INVALID_EMAIL
+                  : confirmEmailValidate == 3 &&
                   application.language.data.EMAIL_DONT_MATCH
             }
             errorTextVisible={confirmEmailErrorVisible}
@@ -663,7 +663,7 @@ const EditProfile = ({
               passwordValidate == 0
                 ? application.language.data.ENTER_PASSWORD
                 : passwordValidate == 2 &&
-                  application.language.data.INVALID_PASSWORD
+                application.language.data.INVALID_PASSWORD
             }
             errorTextVisible={passwordErrorVisible}
           />
@@ -681,8 +681,8 @@ const EditProfile = ({
               confirmPasswordValidate == 0
                 ? application.language.data.ENTER_PASSWORD
                 : confirmPasswordValidate == 2
-                ? application.language.data.INVALID_PASSWORD
-                : confirmPasswordValidate == 3 &&
+                  ? application.language.data.INVALID_PASSWORD
+                  : confirmPasswordValidate == 3 &&
                   application.language.data.PASSWORD_DONT_MATCH
             }
             errorTextVisible={confirmPasswordErrorVisible}
@@ -717,10 +717,9 @@ const EditProfile = ({
                       label={
                         wilaya.id +
                         ' - ' +
-                        `${
-                          application.language.key == LANAGUAGES_LIST.ARABIC
-                            ? wilaya.nom_ar
-                            : wilaya.nom_fr
+                        `${application.language.key == LANAGUAGES_LIST.ARABIC
+                          ? wilaya.nom_ar
+                          : wilaya.nom_fr
                         }`
                       }
                     />
@@ -757,10 +756,9 @@ const EditProfile = ({
                       label={
                         wilaya +
                         ' - ' +
-                        `${
-                          application.language.key == LANAGUAGES_LIST.ARABIC
-                            ? commune.nom_ar
-                            : commune.nom_fr
+                        `${application.language.key == LANAGUAGES_LIST.ARABIC
+                          ? commune.nom_ar
+                          : commune.nom_fr
                         }`
                       }
                     />
@@ -829,7 +827,7 @@ const EditProfile = ({
               presentationValidate == 0
                 ? application.language.data.ENTER_PRESENTATION
                 : presentationValidate == 2 &&
-                  application.language.data.INVALID_PRESENTATION
+                application.language.data.INVALID_PRESENTATION
             }
             errorTextVisible={presentationErrorVisible}
           />
@@ -847,7 +845,7 @@ const EditProfile = ({
               spokenLanguagesValidate == 0
                 ? application.language.data.ENTER_SPOKEN_LANGUAGES
                 : spokenLanguagesValidate == 2 &&
-                  application.language.data.INVALID_SPOKEN_LANGUAGES
+                application.language.data.INVALID_SPOKEN_LANGUAGES
             }
             errorTextVisible={spokenLanguagesErrorVisible}
           />
@@ -865,7 +863,7 @@ const EditProfile = ({
               formationsValidate == 0
                 ? application.language.data.ENTER_COURSES
                 : formationsValidate == 2 &&
-                  application.language.data.INVALID_COURSES
+                application.language.data.INVALID_COURSES
             }
             errorTextVisible={formationsErrorVisible}
           />
@@ -910,11 +908,10 @@ const EditProfile = ({
                       <Picker.Item
                         key={duration.id.toString()}
                         value={duration.duration}
-                        label={`${duration.duration.toString()} ${
-                          application.language.key == LANAGUAGES_LIST.ARABIC
-                            ? 'د'
-                            : 'm'
-                        }`}
+                        label={`${duration.duration.toString()} ${application.language.key == LANAGUAGES_LIST.ARABIC
+                          ? 'د'
+                          : 'm'
+                          }`}
                       />
                     ))}
                 </Picker>
@@ -948,7 +945,7 @@ const EditProfile = ({
                 teleconsultationPricingValidate == 0
                   ? application.language.data.ENTER_COURSES
                   : teleconsultationPricingValidate == 2 &&
-                    application.language.data.INVALID_COURSES
+                  application.language.data.INVALID_COURSES
               }
               errorTextVisible={teleconsultationPricingErrorVisible}
             />
@@ -966,7 +963,7 @@ const EditProfile = ({
                 cabinetPricingValidate == 0
                   ? application.language.data.ENTER_COURSES
                   : cabinetPricingValidate == 2 &&
-                    application.language.data.INVALID_COURSES
+                  application.language.data.INVALID_COURSES
               }
               errorTextVisible={cabinetPricingErrorVisible}
             />
@@ -1025,7 +1022,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     color: COLORS.PRIMARY12,
   },
-  bottomView: {flex: 1},
+  bottomView: { flex: 1 },
   pickerContainer: {
     width: inputWidth,
     alignSelf: 'center',
@@ -1037,7 +1034,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: COLORS.PRIMARY12,
   },
-  pickerIcon: {marginHorizontal: 10},
+  pickerIcon: { marginHorizontal: 10 },
   mapContainer: {
     height: HEIGHT / 3,
     width: WIDTH * 0.9,

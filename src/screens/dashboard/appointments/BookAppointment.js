@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -11,19 +11,19 @@ import {
   View,
 } from 'react-native';
 import Animated from 'react-native-reanimated';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import DrawerHiddenView from '../../../components/drawerHiddenView/DrawerHiddenView';
-import {COLORS} from '../../../constants/colors';
-import {HEIGHT, WIDTH} from '../../../constants/dimensions';
-import {useTheme} from '../../../context/theme';
+import { COLORS } from '../../../constants/colors';
+import { HEIGHT, WIDTH } from '../../../constants/dimensions';
+import { useTheme } from '../../../context/theme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {fetchDoctorInfos} from '../../../api/doctors';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
-import {LANAGUAGES_LIST} from '../../../constants/languages';
-import {Picker} from '@react-native-picker/picker';
+import { fetchDoctorInfos } from '../../../api/doctors';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import { LANAGUAGES_LIST } from '../../../constants/languages';
+import { Picker } from '@react-native-picker/picker';
 import DatePicker from 'react-native-date-picker';
 import AvailableAppointments from '../../../components/availableAppointments/AvailableAppointments';
 import {
@@ -32,9 +32,9 @@ import {
   patientProcessBalancePayment,
 } from '../../../api/patients';
 import moment from 'moment';
-import {WebView} from 'react-native-webview';
-import {updateUser} from '../../../redux/actions/user';
-import {sendFCMNotification} from '../../../functions/notifications';
+import { WebView } from 'react-native-webview';
+import { updateUser } from '../../../redux/actions/user';
+import { sendFCMNotification } from '../../../functions/notifications';
 
 const professionalIconContainerSize = 40;
 const radioButtonIconSize = 17.5;
@@ -64,7 +64,7 @@ const BookAppointment = ({
   role,
   token,
 }) => {
-  const {drawer} = useTheme();
+  const { drawer } = useTheme();
   const [doctorInfos, setDoctorInfos] = useState(null);
   const [alreadyBeenConsulted, setAlreadyBeenConsulted] = useState(false);
   const [selectedAppointmentType, setSelectedAppointmentType] = useState(0);
@@ -113,7 +113,7 @@ const BookAppointment = ({
 
   const getAvailableAppointments = doctorInfos => {
     let rdvs = [];
-    doctorInfos.horaires.map(horaire => {
+    doctorInfos?.horaires?.length > 0 && doctorInfos.horaires.map(horaire => {
       let ouverture = horaire ? parseInt(horaire.ouverture.split(':')[0]) : 0;
       let fermeture = horaire ? parseInt(horaire.fermeture.split(':')[0]) : 0;
       let minute = 0;
@@ -190,8 +190,7 @@ const BookAppointment = ({
       const response = await patientBookAppointment(
         moment(new Date(date)).format('YYYY-MM-DD'),
         selectedHourValue,
-        `${doctorInfos.infos.id}${
-          selectedAppointmentType == 1 ? 'C' : 'V'
+        `${doctorInfos.infos.id}${selectedAppointmentType == 1 ? 'C' : 'V'
         }${date}${selectedHour}`,
         doctorInfos.infos.id,
         user.id,
@@ -251,15 +250,15 @@ const BookAppointment = ({
               //   );
               // }
             } else {
-              await setUser({...user, solde: response['newBalance']});
+              await setUser({ ...user, solde: response['newBalance'] });
               sendFCMNotification(
                 route.params.doctor.notificationsToken,
                 'Slyserve',
                 user.nom +
-                  ' ' +
-                  user.prenom +
-                  'a reserve un rendez vous avec vous pour la date ' +
-                  moment(new Date(date)).format('YYYY-MM-DD'),
+                ' ' +
+                user.prenom +
+                'a reserve un rendez vous avec vous pour la date ' +
+                moment(new Date(date)).format('YYYY-MM-DD'),
               );
               handleBookAppointment();
             }
@@ -328,19 +327,19 @@ const BookAppointment = ({
           style={[
             styles.container,
             {
-              transform: [{scale: drawer.scale}],
+              transform: [{ scale: drawer.scale }],
               borderBottomLeftRadius: drawer.radius,
               borderTopLeftRadius: drawer.radius,
             },
           ]}>
-          <WebView source={{uri: 'https://slyserve.dz/'}} />
+          <WebView source={{ uri: 'https://slyserve.dz/' }} />
         </Animated.View>
       ) : (
         <Animated.View
           style={[
             styles.container,
             {
-              transform: [{scale: drawer.scale}],
+              transform: [{ scale: drawer.scale }],
               borderBottomLeftRadius: drawer.radius,
               borderTopLeftRadius: drawer.radius,
             },
@@ -365,7 +364,7 @@ const BookAppointment = ({
           {doctorInfos ? (
             <ScrollView
               style={styles.bottomView}
-              contentContainerStyle={{paddingBottom: buttonHeight * 1.5}}>
+              contentContainerStyle={{ paddingBottom: buttonHeight * 1.5 }}>
               <View style={styles.professionalContainer}>
                 <View style={styles.professionalIconContainer}>
                   <FontAwesome5
@@ -375,7 +374,7 @@ const BookAppointment = ({
                   />
                 </View>
                 <View style={styles.professionalNameContainer}>
-                  <View style={{flexDirection: 'row'}}>
+                  <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.professionalName}>
                       {doctorInfos.infos.prenom}{' '}
                     </Text>
@@ -458,7 +457,7 @@ const BookAppointment = ({
               <View
                 style={[
                   styles.row,
-                  {marginVertical: 5},
+                  { marginVertical: 5 },
                   application.language.key == LANAGUAGES_LIST.ARABIC && {
                     flexDirection: 'row-reverse',
                   },
@@ -473,7 +472,7 @@ const BookAppointment = ({
                   {application.language.data.CLOSING}
                 </Text>
               </View>
-              {doctorInfos.horaires.map(horaire => (
+              {doctorInfos?.horaires?.length > 0 && doctorInfos.horaires.map(horaire => (
                 <View
                   style={[
                     styles.row,
@@ -527,7 +526,7 @@ const BookAppointment = ({
               </Text>
               <Text>{doctorInfos.infos.formations}</Text>
               <Text />
-              <Text style={[styles.headerTitle, {alignSelf: 'center'}]}>
+              <Text style={[styles.headerTitle, { alignSelf: 'center' }]}>
                 {application.language.data.BOOK_APPOINTMENT}
               </Text>
               <Text />
@@ -634,7 +633,7 @@ const BookAppointment = ({
                         }
                       })()}
                       value={0}
-                      style={{textAlign: 'left'}}
+                      style={{ textAlign: 'left' }}
                     />
                     {appointmentTypes.map(type => (
                       <Picker.Item
@@ -647,8 +646,8 @@ const BookAppointment = ({
                               ? true
                               : false
                             : route.params.doctor.abonner_formule_2 == 1
-                            ? true
-                            : false
+                              ? true
+                              : false
                         }
                       />
                     ))}
@@ -678,7 +677,7 @@ const BookAppointment = ({
                       name="caret-down-sharp"
                       color={COLORS.PRIMARY25}
                       size={12.5}
-                      style={[styles.pickerIcon, {opacity: 0.55}]}
+                      style={[styles.pickerIcon, { opacity: 0.55 }]}
                     />
                   </View>
                 </TouchableOpacity>
@@ -715,7 +714,7 @@ const BookAppointment = ({
             </ScrollView>
           ) : (
             <View
-              style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+              style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
               <ActivityIndicator size="small" color={COLORS.PRIMARY12} />
             </View>
           )}
@@ -734,7 +733,7 @@ const BookAppointment = ({
                   name="close"
                   size={35}
                   color={COLORS.PRIMARY12}
-                  style={{alignSelf: 'flex-end', marginRight: WIDTH * 0.05}}
+                  style={{ alignSelf: 'flex-end', marginRight: WIDTH * 0.05 }}
                   onPress={() => setPaymentModalVisible(false)}
                 />
                 <Text style={styles.headerTitle}>
@@ -747,14 +746,14 @@ const BookAppointment = ({
                       setSelectedPaymentMethod(1);
                     }
                   }}>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Feather
                       name={
                         selectedPaymentMethod == 1 ? 'check-circle' : 'circle'
                       }
                       size={15}
                       color={COLORS.PRIMARY12}
-                      style={{marginRight: 10}}
+                      style={{ marginRight: 10 }}
                     />
                     <Image
                       source={require('../../../assests/logos/cib.png')}
@@ -770,14 +769,14 @@ const BookAppointment = ({
                       setSelectedPaymentMethod(2);
                     }
                   }}>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Feather
                       name={
                         selectedPaymentMethod == 2 ? 'check-circle' : 'circle'
                       }
                       size={15}
                       color={COLORS.PRIMARY12}
-                      style={{marginRight: 10}}
+                      style={{ marginRight: 10 }}
                     />
                     <Ionicons
                       name={'wallet-outline'}
@@ -806,7 +805,7 @@ const BookAppointment = ({
                     : 'DA'}
                 </Text>
                 <TouchableOpacity
-                  style={[styles.button, {position: 'relative', bottom: 0}]}
+                  style={[styles.button, { position: 'relative', bottom: 0 }]}
                   onPress={handlePayment}>
                   <Text style={styles.buttonText}>
                     {application.language.data.BOOK_APPOINTMENT}
@@ -921,14 +920,14 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFill,
   },
-  subTitle: {fontSize: 16, fontWeight: '900'},
+  subTitle: { fontSize: 16, fontWeight: '900' },
   radioButton: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  radioButtonIcon: {marginHorizontal: 5},
+  radioButtonIcon: { marginHorizontal: 5 },
   pickerContainer: {
     width: inputWidth,
     alignSelf: 'center',
@@ -940,7 +939,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: COLORS.PRIMARY12,
   },
-  pickerIcon: {marginHorizontal: 10},
+  pickerIcon: { marginHorizontal: 10 },
   datePicker: {
     height: 52.5,
     width: inputWidth,

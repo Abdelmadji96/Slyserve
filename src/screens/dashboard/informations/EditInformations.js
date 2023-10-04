@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -10,22 +10,22 @@ import {
   Modal,
 } from 'react-native';
 import Animated from 'react-native-reanimated';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import DrawerHiddenView from '../../../components/drawerHiddenView/DrawerHiddenView';
-import {COLORS} from '../../../constants/colors';
-import {HEIGHT, WIDTH} from '../../../constants/dimensions';
-import {useTheme} from '../../../context/theme';
+import { COLORS } from '../../../constants/colors';
+import { HEIGHT, WIDTH } from '../../../constants/dimensions';
+import { useTheme } from '../../../context/theme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Feather from 'react-native-vector-icons/Feather';
-import {LANAGUAGES_LIST} from '../../../constants/languages';
-import {fetchWilayas} from '../../../api/wilayas';
-import {fetchCommunes} from '../../../api/communes';
+import { LANAGUAGES_LIST } from '../../../constants/languages';
+import { fetchWilayas } from '../../../api/wilayas';
+import { fetchCommunes } from '../../../api/communes';
 import FilledAnimatedTextInput from '../../../components/input/FilledAnimatedTextInput';
 import AnimatedTextInput from '../../../components/input/AnimatedTextInput';
-import {Picker} from '@react-native-picker/picker';
-import {patientEditProfile} from '../../../api/patients';
-import {setUser} from '../../../redux/actions/user';
+import { Picker } from '@react-native-picker/picker';
+import { patientEditProfile } from '../../../api/patients';
+import { setUser } from '../../../redux/actions/user';
 
 const inputHeight = HEIGHT / 12.5;
 const inputWidth = WIDTH * 0.9;
@@ -38,14 +38,14 @@ const EditInformations = ({
   token,
   updateUser,
 }) => {
-  const {drawer} = useTheme();
+  const { drawer } = useTheme();
   const [wilayas, setWilayas] = useState(null);
   const [communes, setCommunes] = useState(null);
-  const [address, setAddress] = useState(user?.nom_de_rue);
+  const [address, setAddress] = useState(user?.nomRue);
   const [addressValidate, setAddressValidate] = useState(1);
   const [addressErrorVisible, setAddressErrorVisible] = useState(false);
-  const [wilaya, setWilaya] = useState(user?.wilaya_id);
-  const [commune, setCommune] = useState(user?.commune_id);
+  const [wilaya, setWilaya] = useState(user?.wilaya);
+  const [commune, setCommune] = useState(user?.commune);
   const [email, setEmail] = useState(user?.email);
   const [emailValidate, setEmailValidate] = useState(1);
   const [emailErrorVisible, setEmailErrorVisible] = useState(false);
@@ -69,8 +69,9 @@ const EditInformations = ({
     }
   };
 
-  const getCommunes = async wilaya_id => {
-    const response = await fetchCommunes(wilaya_id);
+  // eslint-disable-next-line no-shadow
+  const getCommunes = async (wilaya) => {
+    const response = await fetchCommunes(wilaya);
     if (response) {
       setCommunes(response);
     }
@@ -92,8 +93,8 @@ const EditInformations = ({
         text.length == 0
           ? setEmailValidate(0)
           : alph.test(text)
-          ? setEmailValidate(1)
-          : setEmailValidate(2);
+            ? setEmailValidate(1)
+            : setEmailValidate(2);
         setEmail(text);
         if (text == confirmEmail) {
           setConfirmEmailErrorVisible(false);
@@ -110,10 +111,10 @@ const EditInformations = ({
         text.length == 0
           ? setConfirmEmailValidate(0)
           : alph.test(text) && text == email
-          ? setConfirmEmailValidate(1)
-          : text == email
-          ? setConfirmEmailValidate(2)
-          : setConfirmEmailValidate(3);
+            ? setConfirmEmailValidate(1)
+            : text == email
+              ? setConfirmEmailValidate(2)
+              : setConfirmEmailValidate(3);
         setConfirmEmail(text);
         break;
 
@@ -128,8 +129,8 @@ const EditInformations = ({
         text.length == 0
           ? setPasswordValidate(0)
           : alph.test(text)
-          ? setPasswordValidate(1)
-          : setPasswordValidate(2);
+            ? setPasswordValidate(1)
+            : setPasswordValidate(2);
         setPassword(text);
         if (text == confirmPassword) {
           setConfirmPasswordErrorVisible(false);
@@ -144,10 +145,10 @@ const EditInformations = ({
         text.length == 0
           ? setConfirmPasswordValidate(0)
           : alph.test(text) && text == password
-          ? setConfirmPasswordValidate(1)
-          : text == password
-          ? setConfirmPasswordValidate(2)
-          : setConfirmPasswordValidate(3);
+            ? setConfirmPasswordValidate(1)
+            : text == password
+              ? setConfirmPasswordValidate(2)
+              : setConfirmPasswordValidate(3);
         setConfirmPassword(text);
         break;
 
@@ -158,8 +159,8 @@ const EditInformations = ({
         text.length == 0
           ? setAddressValidate(0)
           : alph.test(text)
-          ? setAddressValidate(1)
-          : setAddressValidate(2);
+            ? setAddressValidate(1)
+            : setAddressValidate(2);
         setAddress(text);
         break;
 
@@ -189,11 +190,11 @@ const EditInformations = ({
         if (response['message'] == 'success') {
           await updateUser({
             ...user,
-            wilaya_id: wilaya,
-            commune_id: commune,
+            wilaya: wilaya,
+            commune: commune,
             email: confirmEmail,
             mot_de_passe: confirmPassword ? confirmPassword : user.mot_de_passe,
-            nom_de_rue: address,
+            nomRue: address,
           });
           setLoadingModalVisible(false);
           Alert.alert('', application.language.data.UPDATED_SUCCESSFULLY);
@@ -215,9 +216,9 @@ const EditInformations = ({
       confirmEmailValidate == 1 ||
       confirmEmail !== user.email ||
       addressValidate == 1 ||
-      address !== user.nom_de_rue ||
-      wilaya !== user.wilaya_id ||
-      commune !== user.commune_id
+      address !== user.nomRue ||
+      wilaya !== user.wilaya ||
+      commune !== user.commune
     ) {
       handleEditInformations();
     } else {
@@ -247,8 +248,8 @@ const EditInformations = ({
 
   useEffect(() => {
     getWilayas();
-    getCommunes(user.wilaya_id);
-  }, []);
+    getCommunes(user?.wilaya);
+  }, [user?.wilaya]);
 
   return (
     <>
@@ -257,7 +258,7 @@ const EditInformations = ({
         style={[
           styles.container,
           {
-            transform: [{scale: drawer.scale}],
+            transform: [{ scale: drawer.scale }],
             borderBottomLeftRadius: drawer.radius,
             borderTopLeftRadius: drawer.radius,
           },
@@ -281,7 +282,7 @@ const EditInformations = ({
         </View>
         <ScrollView
           style={styles.bottomView}
-          contentContainerStyle={{padding: 10}}>
+          contentContainerStyle={{ padding: 10 }}>
           <Text />
           <FilledAnimatedTextInput
             inputHeight={HEIGHT / 12.5}
@@ -295,7 +296,7 @@ const EditInformations = ({
               addressValidate == 0
                 ? application.language.data.ENTER_ADDRESS
                 : addressValidate == 2 &&
-                  application.language.data.INVALID_ADDRESS
+                application.language.data.INVALID_ADDRESS
             }
             errorTextVisible={addressErrorVisible}
           />
@@ -328,8 +329,8 @@ const EditInformations = ({
               confirmEmailValidate == 0
                 ? application.language.data.ENTER_EMAIL
                 : confirmEmailValidate == 2
-                ? application.language.data.INVALID_EMAIL
-                : confirmEmailValidate == 3 &&
+                  ? application.language.data.INVALID_EMAIL
+                  : confirmEmailValidate == 3 &&
                   application.language.data.EMAIL_DONT_MATCH
             }
             errorTextVisible={confirmEmailErrorVisible}
@@ -348,7 +349,7 @@ const EditInformations = ({
               passwordValidate == 0
                 ? application.language.data.ENTER_PASSWORD
                 : passwordValidate == 2 &&
-                  application.language.data.INVALID_PASSWORD
+                application.language.data.INVALID_PASSWORD
             }
             errorTextVisible={passwordErrorVisible}
           />
@@ -366,8 +367,8 @@ const EditInformations = ({
               confirmPasswordValidate == 0
                 ? application.language.data.ENTER_PASSWORD
                 : confirmPasswordValidate == 2
-                ? application.language.data.INVALID_PASSWORD
-                : confirmPasswordValidate == 3 &&
+                  ? application.language.data.INVALID_PASSWORD
+                  : confirmPasswordValidate == 3 &&
                   application.language.data.PASSWORD_DONT_MATCH
             }
             errorTextVisible={confirmPasswordErrorVisible}
@@ -402,10 +403,9 @@ const EditInformations = ({
                       label={
                         wilaya.id +
                         ' - ' +
-                        `${
-                          application.language.key == LANAGUAGES_LIST.ARABIC
-                            ? wilaya.nom_ar
-                            : wilaya.nom_fr
+                        `${application.language.key == LANAGUAGES_LIST.ARABIC
+                          ? wilaya.nom_ar
+                          : wilaya.nom_fr
                         }`
                       }
                     />
@@ -442,10 +442,9 @@ const EditInformations = ({
                       label={
                         wilaya +
                         ' - ' +
-                        `${
-                          application.language.key == LANAGUAGES_LIST.ARABIC
-                            ? commune.nom_ar
-                            : commune.nom_fr
+                        `${application.language.key == LANAGUAGES_LIST.ARABIC
+                          ? commune.nom_ar
+                          : commune.nom_fr
                         }`
                       }
                     />
@@ -509,7 +508,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     color: COLORS.PRIMARY12,
   },
-  bottomView: {flex: 1},
+  bottomView: { flex: 1 },
   pickerContainer: {
     width: inputWidth,
     alignSelf: 'center',
@@ -521,7 +520,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: COLORS.PRIMARY12,
   },
-  pickerIcon: {marginHorizontal: 10},
+  pickerIcon: { marginHorizontal: 10 },
   button: {
     height: buttonHeight,
     width: WIDTH * 0.9,

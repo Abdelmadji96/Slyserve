@@ -10,6 +10,7 @@ import {
   Animated as RNAnimated,
   ActivityIndicator,
 } from 'react-native';
+import axios from 'axios';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import Animated, { Extrapolate } from 'react-native-reanimated';
 import DrawerHiddenView from '../../../components/drawerHiddenView/DrawerHiddenView';
@@ -36,6 +37,7 @@ import { fetchLaboratories } from '../../../api/laboratories';
 import { fetchPharmacies } from '../../../api/pharmacies';
 import { fetchAmbulances } from '../../../api/ambulances';
 import { fetchBloodDonors } from '../../../api/bloodDonors';
+import { API_URL } from '../../../../constants';
 
 const drawerIconContainerSize = 50;
 const bottomTabsIconSize = 30;
@@ -222,9 +224,9 @@ const Home = ({ navigation, application, user, role }) => {
   const [bloodType, setBloodType] = useState(0);
   const [loadingModalVisible, setLoadingModalVisible] = useState(false);
 
-  const fitMapToContent = results => {
-    mapRef.current.fitToCoordinates(
-      results.map(result => ({
+  const fitMapToContent = (data) => {
+    mapRef?.current?.fitToCoordinates(
+      data.map(result => ({
         latitude: result.latitude,
         longitude: result.longitude,
       })),
@@ -241,9 +243,15 @@ const Home = ({ navigation, application, user, role }) => {
   };
 
   const getWilayas = async () => {
-    const response = await fetchWilayas();
-    if (response) {
-      setWilayas(response);
+    // const response = await fetchWilayas();
+    // if (response) {
+    //   setWilayas(response);
+    // }
+    try {
+      const response = await axios.get(`${API_URL}/api/wilayas`);
+      setWilayas(response.data);
+    } catch (error) {
+      console.log('getWilayas', error);
     }
   };
 
@@ -255,9 +263,13 @@ const Home = ({ navigation, application, user, role }) => {
   };
 
   const getSpecialties = async () => {
-    const response = await fetchSpecialites();
-    if (response) {
-      setSpecialties(response);
+    try {
+      console.log('getSpecialties');
+      const response = await axios.get(API_URL + '/professionnels/specialites');
+      setSpecialties(response.data);
+    } catch (error) {
+      console.log('getSpecialties', error);
+
     }
   };
 
@@ -328,15 +340,15 @@ const Home = ({ navigation, application, user, role }) => {
       const response = await fetchClinics(wilaya, commune);
       if (response) {
         setLoadingModalVisible(false);
-        setResults(response['results']);
-        if (response['results'].length > 0) {
-          setSelectedResult(response['results'][0].id);
+        setResults(response.results);
+        if (response.results.length > 0) {
+          setSelectedResult(response.results[0].id);
         } else {
           setLoadingModalVisible(false);
           Alert.alert('', application.language.data.NO_RESULTS);
         }
         setFilterModalVisible(false);
-        fitMapToContent(response['results']);
+        fitMapToContent(response.results);
       }
     } catch (error) {
       setLoadingModalVisible(false);
@@ -509,7 +521,10 @@ const Home = ({ navigation, application, user, role }) => {
           },
         ]}>
         <View style={styles.subContainer}>
-          <MapView provider={PROVIDER_GOOGLE} style={{ flex: 1 }} ref={mapRef}>
+          <MapView
+            provider={PROVIDER_GOOGLE}
+            style={{ flex: 1 }}
+          >
             {results &&
               results.map((result, index) => (
                 <Marker
@@ -1205,6 +1220,7 @@ const Home = ({ navigation, application, user, role }) => {
                     }}
                     onValueChange={(itemValue, itemIndex) => {
                       if (wilaya !== itemValue) {
+                        console.log('itemValue', itemValue);
                         setWilaya(itemValue);
                         getCommunes(itemValue);
                         if (wilayaErrorVisible) {

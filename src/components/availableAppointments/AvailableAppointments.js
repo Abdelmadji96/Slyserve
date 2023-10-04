@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -8,14 +8,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import {
   fetchDoctorAppointments,
   fetchDoctorWorkingHours,
 } from '../../api/doctors';
-import {patientFetchAppointments} from '../../api/patients';
-import {COLORS} from '../../constants/colors';
-import {HEIGHT, WIDTH} from '../../constants/dimensions';
+import { patientFetchAppointments } from '../../api/patients';
+import { COLORS } from '../../constants/colors';
+import { HEIGHT, WIDTH } from '../../constants/dimensions';
 
 const hourHeight = 80;
 const columnsNumber = 3;
@@ -81,7 +81,7 @@ const AvailableAppointments = ({
     // doctorWorkingHours &&
     //   doctorWorkingHours
     //alert(new Date().getDay() +"\n"+JSON.stringify( doctorInfos.horaires))
-    doctorInfos.horaires
+    doctorInfos?.horaires?.length > 0 && doctorInfos.horaires
       .filter(horaire => horaire.jour == new Date(date).getDay())
       .map(workingHour => {
         let opening = workingHour
@@ -149,7 +149,7 @@ const AvailableAppointments = ({
             numColumns={columnsNumber}
             showsVerticalScrollIndicator={false}
             data={availableAppointments}
-            renderItem={({item, index}) => (
+            renderItem={({ item, index }) => (
               <TouchableOpacity
                 disabled={item.available == false}
                 style={[
@@ -188,7 +188,7 @@ const AvailableAppointments = ({
                 <Text
                   style={[
                     styles.hourText,
-                    index == hour && {color: COLORS.SECONDARY},
+                    index == hour && { color: COLORS.SECONDARY },
                   ]}>
                   {item.heure}
                 </Text>
@@ -196,7 +196,7 @@ const AvailableAppointments = ({
             )}
           />
         ) : (
-          <Text style={{alignSelf: 'center'}}>
+          <Text style={{ alignSelf: 'center' }}>
             {application.language.data.NO_AVAILABLE_APPOINMENTS}
           </Text>
         )

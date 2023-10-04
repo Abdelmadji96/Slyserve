@@ -1,4 +1,4 @@
-import {API_URL} from '@env';
+import { API_URL } from '../../constants';
 
 export const fetchWilayas = async () => {
   const response = await fetch(API_URL + '/api/wilayas', {
@@ -9,5 +9,6 @@ export const fetchWilayas = async () => {
     },
   });
   const responseJson = await response.json();
+  console.log('responseJson', responseJson);
   return responseJson;
 };

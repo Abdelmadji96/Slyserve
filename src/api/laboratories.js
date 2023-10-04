@@ -1,4 +1,4 @@
-import {API_URL} from '@env';
+import { API_URL } from '../../constants';
 
 export const fetchLaboratories = async (wilaya_id, commune_id) => {
   const response = await fetch(

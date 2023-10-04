@@ -1,6 +1,6 @@
-import {DrawerItem, useDrawerProgress} from '@react-navigation/drawer';
-import {useTheme} from '../../context/theme';
-import React, {useEffect} from 'react';
+import { DrawerItem, useDrawerProgress } from '@react-navigation/drawer';
+import { useTheme } from '../../context/theme';
+import React, { useEffect } from 'react';
 import {
   Image,
   StyleSheet,
@@ -9,17 +9,17 @@ import {
   View,
   Linking,
 } from 'react-native';
-import {COLORS} from '../../constants/colors';
-import {interpolateNode} from 'react-native-reanimated';
-import {HEIGHT, WIDTH} from '../../constants/dimensions';
+import { COLORS } from '../../constants/colors';
+import { interpolateNode } from 'react-native-reanimated';
+import { HEIGHT, WIDTH } from '../../constants/dimensions';
 import logo from '../../assests/logos/logo.png';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {connect} from 'react-redux';
-import {signOut} from '../../redux/actions/user';
-import {USER_ROLES} from '../../constants/user';
+import { connect } from 'react-redux';
+import { signOut } from '../../redux/actions/user';
+import { USER_ROLES } from '../../constants/user';
 
 const logoContainerSize = WIDTH / 5;
 const logoSize = WIDTH / 6;
@@ -34,7 +34,7 @@ const DrawerContent = ({
   logOut,
 }) => {
   const progress = useDrawerProgress();
-  const {setDrawer} = useTheme();
+  const { setDrawer } = useTheme();
 
   const scale = interpolateNode(progress, {
     inputRange: [0, 1],
@@ -62,7 +62,7 @@ const DrawerContent = ({
   // });
 
   const triggerDrawer = async () => {
-    setDrawer({scale, radius /*, height, top, left*/});
+    setDrawer({ scale, radius /*, height, top, left*/ });
   };
 
   useEffect(() => {
@@ -79,7 +79,7 @@ const DrawerContent = ({
           pressColor="transparent" //{COLORS.SECONDARY}
           activeTintColor={COLORS.SECONDARY}
           inactiveTintColor={COLORS.UNDERLAY}
-          icon={({color, size, focused}) => (
+          icon={({ color, size, focused }) => (
             <Feather name="home" color={color} size={size} />
           )}
           label={application.language.data.HOME}
@@ -96,7 +96,7 @@ const DrawerContent = ({
               pressColor="transparent" //{COLORS.SECONDARY}
               activeTintColor={COLORS.SECONDARY}
               inactiveTintColor={COLORS.UNDERLAY}
-              icon={({color, size, focused}) => (
+              icon={({ color, size, focused }) => (
                 <Feather name="log-in" color={color} size={size} />
               )}
               label={application.language.data.SIGN_IN}
@@ -110,7 +110,7 @@ const DrawerContent = ({
               pressColor="transparent" //{COLORS.SECONDARY}
               activeTintColor={COLORS.SECONDARY}
               inactiveTintColor={COLORS.UNDERLAY}
-              icon={({color, size, focused}) => (
+              icon={({ color, size, focused }) => (
                 <Feather name="user-plus" color={color} size={size} />
               )}
               label={application.language.data.REGISTER}
@@ -128,7 +128,7 @@ const DrawerContent = ({
               pressColor="transparent" //{COLORS.SECONDARY}
               activeTintColor={COLORS.SECONDARY}
               inactiveTintColor={COLORS.UNDERLAY}
-              icon={({color, size, focused}) => (
+              icon={({ color, size, focused }) => (
                 <Feather name="calendar" color={color} size={size} />
               )}
               label={application.language.data.MY_APPOINTMENTS}
@@ -142,7 +142,7 @@ const DrawerContent = ({
               pressColor="transparent" //{COLORS.SECONDARY}
               activeTintColor={COLORS.SECONDARY}
               inactiveTintColor={COLORS.UNDERLAY}
-              icon={({color, size, focused}) => (
+              icon={({ color, size, focused }) => (
                 <Feather name="users" color={color} size={size} />
               )}
               label={application.language.data.MY_PATIENTS}
@@ -156,7 +156,7 @@ const DrawerContent = ({
               pressColor="transparent" //{COLORS.SECONDARY}
               activeTintColor={COLORS.SECONDARY}
               inactiveTintColor={COLORS.UNDERLAY}
-              icon={({color, size, focused}) => (
+              icon={({ color, size, focused }) => (
                 <AntDesign name="filetext1" color={color} size={size} />
               )}
               label={application.language.data.SUBSCRIPTION}
@@ -174,7 +174,7 @@ const DrawerContent = ({
               pressColor="transparent" //{COLORS.SECONDARY}
               activeTintColor={COLORS.SECONDARY}
               inactiveTintColor={COLORS.UNDERLAY}
-              icon={({color, size, focused}) => (
+              icon={({ color, size, focused }) => (
                 <Feather name="calendar" color={color} size={size} />
               )}
               label={application.language.data.MY_APPOINTMENTS}
@@ -188,7 +188,7 @@ const DrawerContent = ({
               pressColor="transparent" //{COLORS.SECONDARY}
               activeTintColor={COLORS.SECONDARY}
               inactiveTintColor={COLORS.UNDERLAY}
-              icon={({color, size, focused}) => (
+              icon={({ color, size, focused }) => (
                 <Feather
                   name="users"
                   // MaterialIcons
@@ -208,7 +208,7 @@ const DrawerContent = ({
               pressColor="transparent" //{COLORS.SECONDARY}
               activeTintColor={COLORS.SECONDARY}
               inactiveTintColor={COLORS.UNDERLAY}
-              icon={({color, size, focused}) => (
+              icon={({ color, size, focused }) => (
                 <Ionicons name="documents-outline" color={color} size={size} />
               )}
               label={application.language.data.MY_FILES}
@@ -222,7 +222,7 @@ const DrawerContent = ({
               pressColor="transparent" //{COLORS.SECONDARY}
               activeTintColor={COLORS.SECONDARY}
               inactiveTintColor={COLORS.UNDERLAY}
-              icon={({color, size, focused}) => (
+              icon={({ color, size, focused }) => (
                 <AntDesign name="solution1" color={color} size={size} />
               )}
               label={application.language.data.MY_INFORMATIONS}
@@ -239,7 +239,7 @@ const DrawerContent = ({
             pressColor="transparent" //{COLORS.SECONDARY}
             activeTintColor={COLORS.SECONDARY}
             inactiveTintColor={COLORS.UNDERLAY}
-            icon={({color, size, focused}) => (
+            icon={({ color, size, focused }) => (
               <AntDesign name="solution1" color={color} size={size} />
             )}
             label={application.language.data.PROFILE}
@@ -252,7 +252,7 @@ const DrawerContent = ({
           pressColor="transparent" //{COLORS.SECONDARY}
           activeTintColor={COLORS.SECONDARY}
           inactiveTintColor={COLORS.UNDERLAY}
-          icon={({color, size, focused}) => (
+          icon={({ color, size, focused }) => (
             <MaterialIcons name="language" color={color} size={size} />
           )}
           label={application.language.data.LANGUAGE}
@@ -266,7 +266,7 @@ const DrawerContent = ({
           pressColor="transparent" //{COLORS.SECONDARY}
           activeTintColor={COLORS.SECONDARY}
           inactiveTintColor={COLORS.UNDERLAY}
-          icon={({color, size, focused}) => (
+          icon={({ color, size, focused }) => (
             <MaterialIcons name="info-outline" color={color} size={size} />
           )}
           label={application.language.data.ABOUT}
@@ -280,7 +280,7 @@ const DrawerContent = ({
           pressColor="transparent" //{COLORS.SECONDARY}
           activeTintColor={COLORS.SECONDARY}
           inactiveTintColor={COLORS.UNDERLAY}
-          icon={({color, size, focused}) => (
+          icon={({ color, size, focused }) => (
             <Feather name="mail" color={color} size={size} />
           )}
           label={application.language.data.CONTACT}
@@ -295,7 +295,7 @@ const DrawerContent = ({
             pressColor="transparent" //{COLORS.SECONDARY}
             activeTintColor={COLORS.SECONDARY}
             inactiveTintColor={COLORS.UNDERLAY}
-            icon={({color, size, focused}) => (
+            icon={({ color, size, focused }) => (
               <Feather name="log-out" color={color} size={size} />
             )}
             label={application.language.data.SIGN_OUT}
@@ -309,7 +309,7 @@ const DrawerContent = ({
         )}
       </View>
       <View style={styles.socialContainer}>
-        <Text style={[styles.label, {marginBottom: 10}]}>
+        <Text style={[styles.label, { marginBottom: 10 }]}>
           {application.language.data.FOLLOW}
         </Text>
         <View style={styles.socialSubContainer}>
@@ -390,7 +390,7 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'space-evenly',
   },
-  drawerItem: {width: '95%'},
+  drawerItem: { width: '95%' },
   label: {
     fontSize: 16,
     fontWeight: '700',

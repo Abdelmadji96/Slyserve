@@ -1,16 +1,16 @@
-import {API_URL} from '@env';
+import { API_URL } from '../../constants';
 
 export const fetchAmbulances = async (wilaya_id, commune_id) => {
   const response = await fetch(
     API_URL +
-      `/api/ambulance/search/${commune_id == 0 ? 'wilaya' : 'wilayacommune'}`,
+    `/api/ambulance/search/${commune_id == 0 ? 'wilaya' : 'wilayacommune'}`,
     {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-type': 'application/json',
       },
-      body: JSON.stringify({wilaya_id, commune_id}),
+      body: JSON.stringify({ wilaya_id, commune_id }),
     },
   );
   const responseJson = await response.json();
@@ -23,9 +23,8 @@ export const ambulanceLogin = async (phoneEmail, password) => {
 
   const response = await fetch(
     API_URL +
-      `/api/ambulance/login/${
-        phoneEmail.match(emailRegex) ? 'email' : 'telephone'
-      }`,
+    `/api/ambulance/login/${phoneEmail.match(emailRegex) ? 'email' : 'telephone'
+    }`,
     {
       method: 'POST',
       headers: {
@@ -33,8 +32,8 @@ export const ambulanceLogin = async (phoneEmail, password) => {
         'Content-type': 'application/json',
       },
       body: phoneEmail.match(emailRegex)
-        ? JSON.stringify({email: phoneEmail, mdp: password})
-        : JSON.stringify({telephone: phoneEmail, mdp: password}),
+        ? JSON.stringify({ email: phoneEmail, mdp: password })
+        : JSON.stringify({ telephone: phoneEmail, mdp: password }),
     },
   );
   const responseJson = await response.json();
@@ -48,7 +47,7 @@ export const ambulanceCheckUnique = async (email, telephone) => {
       Accept: 'application/json',
       'Content-type': 'application/json',
     },
-    body: JSON.stringify({email, telephone}),
+    body: JSON.stringify({ email, telephone }),
   });
   const responseJson = await response.json();
   return responseJson;
